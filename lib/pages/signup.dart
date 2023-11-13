@@ -22,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Text("Sign Up",
                   style: TextStyle(
                     fontSize: 28.0,
-                    color: Colors.black,
+                    color: Color(0xFFF9FAF8),
                   )),
               SizedBox(
                 height: 40.0,
@@ -31,78 +31,199 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 100.0,
                 width: 100.0,
                 child: Image(image: AssetImage('assets/loginlogo.png'),
-                    fit: BoxFit.cover),
+                    fit: BoxFit.cover,
+                    color: Color(0xFFF9FAF8)
+                ),
               ),
               SizedBox(
                 height: 30.0,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
                 child: Column(
                   children: [
-                    TextFormField(
+                    TextField(
                       decoration: InputDecoration(
+                        iconColor: Colors.white,
+                        labelText: ("Name"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter your name"),
+                        hintStyle: TextStyle(
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        iconColor: Colors.white,
                         labelText: ("Email"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
                         hintText: ("Enter email address"),
                         hintStyle: TextStyle(
-                          color: Colors.grey[700],
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
                         ),
                       ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
                     ),
-                    TextFormField(
-                      obscureText: true,
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    TextField(
                       decoration: InputDecoration(
-                        label: Text("Phone Number"),
-                        hintText: ("Enter Phone Number"),
+                        iconColor: Colors.white,
+                        labelText: ("Phone Number"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter phone number"),
                         hintStyle: TextStyle(
-                          color: Colors.grey[700],
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
                         ),
                       ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
                     ),
-                    TextFormField(
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    TextField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        label: Text("Password"),
-                        hintText: ("Enter Password"),
+                        iconColor: Colors.white,
+                        labelText: ("Password"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter your password"),
                         hintStyle: TextStyle(
-                          color: Colors.grey[700],
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
                         ),
                       ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
                     ),
-                    TextFormField(
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    TextField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        label: Text("Confirm Password"),
+                        iconColor: Colors.white,
+                        labelText: ("Confirmation"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
                         hintText: ("Re-enter password"),
                         hintStyle: TextStyle(
-                          color: Colors.grey[700],
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
                         ),
                       ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
                     ),
                     //
                   ],
                 ),
               ),
               SizedBox(
-                height: 10.0,
+                height: 20.0,
               ),
-              Text("Already have an account?"),
-              ElevatedButton(onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/');
-              },
-                  child: Text("Login"),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                }, //make pushReplacementNamed later
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+                  fixedSize: MaterialStatePropertyAll(Size(330, 60)),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0), //
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
-                height: 15.0,
+                height: 30,
               ),
-              ElevatedButton(onPressed: () {
-                Navigator.pushReplacementNamed(context, '/');
-              },
-                child: Text("Sign Up"),
-              ),
-              TextButton.icon(onPressed: () {},
+              ElevatedButton.icon(
+                onPressed: () {},
                 icon: Icon(Icons.g_mobiledata),
-                label: Text("Sign Up with Google"),
+                label: Text("Login with Google"),
+                style: ButtonStyle(
+                  fixedSize: MaterialStatePropertyAll(Size(330, 50)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      side: BorderSide(color: Colors.yellow, width: 2),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                },
+                child: Text("Already have an account? Login"),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                ),
               ),
             ],
           ),
