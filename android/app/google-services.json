@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387135180117",
+    "project_id": "investment-manager-4c55c",
+    "storage_bucket": "investment-manager-4c55c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387135180117:android:3a5e47629cbb0bc05d33dc",
+        "android_client_info": {
+          "package_name": "com.example.investment_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnlIKQMSfxdzubZLEyaNEjlnGkTpgPHnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
