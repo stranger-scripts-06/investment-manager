@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:investment_manager/pages/forgotpasswordpage.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final VoidCallback showRegisterPage;
+  const LoginPage({Key? key, required this.showRegisterPage}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   // text editing controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -17,11 +18,11 @@ class _LoginPageState extends State<LoginPage> {
   // sign user in method
   Future signUserIn() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(), 
-        password:  _passwordController.text.trim()
-      );
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
   }
 
+  @override
   void disposal() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -119,7 +120,11 @@ class _LoginPageState extends State<LoginPage> {
                 height: 10.0,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ForgotPasswordPage();
+                  }));
+                },
                 child: Text("Forgot Password?"),
                 style: ButtonStyle(
                   foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
@@ -139,9 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFFFF8E7)),
                   foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
-                  fixedSize: MaterialStatePropertyAll(Size(330, 60)),
+                  fixedSize: MaterialStatePropertyAll(Size(280, 60)),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0), //
@@ -155,13 +160,13 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icon(Icons.g_mobiledata),
                 label: Text("Login with Google"),
                 style: ButtonStyle(
-                  fixedSize: MaterialStatePropertyAll(Size(330, 50)),
+                  fixedSize: MaterialStatePropertyAll(Size(280, 50)),
                   backgroundColor: MaterialStatePropertyAll(Colors.black),
                   foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.yellow, width: 2),
+                      side: BorderSide(color: Color(0xFFFFF8E7), width: 2),
                     ),
                   ),
                 ),
@@ -169,15 +174,27 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: Text("New Here? Sign Up"),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
-                ),
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'New here?',
+                    style: TextStyle(
+                      color: Color(0xFFF0E68C),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: widget.showRegisterPage,
+                    child: Text(
+                      ' Sign Up',
+                      style: TextStyle(
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

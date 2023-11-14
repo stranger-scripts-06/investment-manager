@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:investment_manager/pages/auth_page.dart';
+import 'package:investment_manager/auth/mainpage.dart';
 import 'package:investment_manager/pages/homepage.dart';
 import 'package:investment_manager/pages/loginpage.dart';
 import 'package:investment_manager/pages/signup.dart';
@@ -41,8 +41,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => AuthPage(),
-        '/signup': (context) => SignUpPage(),
+        '/': (context) => MainPage(),
         '/home': (context) => HomePage(),
       },
     );
