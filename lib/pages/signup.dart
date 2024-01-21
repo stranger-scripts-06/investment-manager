@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 100.0,
                 width: 100.0,
-                child: Image(image: AssetImage('assets/loginlogo.png'),
+                child: Image(image: AssetImage('assets/Images/loginlogo.png'),
                     fit: BoxFit.cover,
                     color: Color(0xFFF9FAF8)
                 ),

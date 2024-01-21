@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-class StocksPage extends StatefulWidget {
-  const StocksPage({super.key});
+class MutualFundsPage extends StatefulWidget {
+  const MutualFundsPage({super.key});
 
   @override
-  State<StocksPage> createState() => _StocksPageState();
+  State<MutualFundsPage> createState() => _MutualFundsPageState();
 }
 
-class _StocksPageState extends State<StocksPage> {
+class _MutualFundsPageState extends State<MutualFundsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stocks",
+        title: Text("Mutual Funds",
           style: TextStyle(
             color: Color(0xFFF9FAF8),
             fontSize: 28.0,
@@ -35,13 +35,12 @@ class _StocksPageState extends State<StocksPage> {
       body: SizedBox.expand(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 20.0,
+                height: 30,
               ),
               Container(
-                height: 250,
+                height: 275,
                 width: 375,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -56,48 +55,10 @@ class _StocksPageState extends State<StocksPage> {
                 ),
               ),
               SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("My Stocks",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("ETF/IPO",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ]
-              ),
-              SizedBox(
-                height: 15.0,
+                height: 30,
               ),
               Container(
-                height: 200,
+                height: 325,
                 width: 375,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -105,7 +66,7 @@ class _StocksPageState extends State<StocksPage> {
                   color: Color(0xFF313131),
                 ),
                 alignment: Alignment.center,
-                child: Text("Watchlist/Top losers and gainers",
+                child: Text("Recommendations",
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -133,7 +94,9 @@ class _StocksPageState extends State<StocksPage> {
                     ),
                     color: Color(0xFFF9FAF8),
                   ),
-                  IconButton(onPressed: (){},
+                  IconButton(onPressed: (){
+                    Navigator.pushNamed(context, '/stocks');
+                  },
                     icon: Icon(Icons.attach_money_rounded,
                       size: 50,
                     ),
@@ -154,5 +117,3 @@ class _StocksPageState extends State<StocksPage> {
     );
   }
 }
-
-

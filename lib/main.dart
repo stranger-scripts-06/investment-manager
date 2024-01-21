@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:investment_manager/pages/auth_page.dart';
 import 'package:investment_manager/pages/homepage.dart';
 import 'package:investment_manager/pages/loginpage.dart';
+import 'package:investment_manager/pages/portfoliopage.dart';
+import 'package:investment_manager/pages/settingpage.dart';
 import 'package:investment_manager/pages/signup.dart';
+import 'package:investment_manager/pages/stockspage.dart';
+import 'package:investment_manager/pages/mutualfundspage.dart';
+import 'package:investment_manager/pages/bullionpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -39,11 +44,17 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
       ),
-      initialRoute: '/',
+      initialRoute: '/home', //TODO: Change this back once the homepage is done
       routes: {
         '/': (context) => AuthPage(),
         '/signup': (context) => SignUpPage(),
         '/home': (context) => HomePage(),
+        '/stocks': (context) => StocksPage(),
+        '/mutualfunds': (context) => MutualFundsPage(),
+        '/gold': (context) => BullionPage(),
+        '/settings': (context) => SettingsPage(),
+        '/portfolio': (context) => PortfolioPage(),
+
       },
     );
   }

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-class StocksPage extends StatefulWidget {
-  const StocksPage({super.key});
+
+class BullionPage extends StatefulWidget {
+  const BullionPage({super.key});
 
   @override
-  State<StocksPage> createState() => _StocksPageState();
+  State<BullionPage> createState() => _BullionPageState();
 }
 
-class _StocksPageState extends State<StocksPage> {
+class _BullionPageState extends State<BullionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stocks",
+        title: Text("Bullion",
           style: TextStyle(
             color: Color(0xFFF9FAF8),
             fontSize: 28.0,
@@ -41,6 +42,24 @@ class _StocksPageState extends State<StocksPage> {
                 height: 20.0,
               ),
               Container(
+                height: 100,
+                width: 375,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Stocks owned",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              Container(
                 height: 250,
                 width: 375,
                 decoration: BoxDecoration(
@@ -58,44 +77,6 @@ class _StocksPageState extends State<StocksPage> {
               SizedBox(
                 height: 15.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("My Stocks",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("ETF/IPO",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ]
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
               Container(
                 height: 200,
                 width: 375,
@@ -105,7 +86,7 @@ class _StocksPageState extends State<StocksPage> {
                   color: Color(0xFF313131),
                 ),
                 alignment: Alignment.center,
-                child: Text("Watchlist/Top losers and gainers",
+                child: Text("Recomendations",
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -133,7 +114,9 @@ class _StocksPageState extends State<StocksPage> {
                     ),
                     color: Color(0xFFF9FAF8),
                   ),
-                  IconButton(onPressed: (){},
+                  IconButton(onPressed: (){
+                    Navigator.pushNamed(context, '/stocks');
+                  },
                     icon: Icon(Icons.attach_money_rounded,
                       size: 50,
                     ),
@@ -154,5 +137,3 @@ class _StocksPageState extends State<StocksPage> {
     );
   }
 }
-
-

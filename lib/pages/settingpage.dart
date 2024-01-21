@@ -1,26 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-class StocksPage extends StatefulWidget {
-  const StocksPage({super.key});
+import 'package:flutter_svg/flutter_svg.dart';
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  State<StocksPage> createState() => _StocksPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _StocksPageState extends State<StocksPage> {
+class _SettingsPageState extends State<SettingsPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stocks",
+        title: Text("Settings",
           style: TextStyle(
             color: Color(0xFFF9FAF8),
             fontSize: 28.0,
           ),
         ),
         centerTitle: true,
-        leading: IconButton(onPressed: (){
-          Navigator.pushNamed(context, '/settings');
-        },
+        leading: IconButton(onPressed: (){},
           icon: Icon(Icons.menu),
           color: Color(0xFFF9FAF8),
         ),
@@ -41,78 +42,102 @@ class _StocksPageState extends State<StocksPage> {
                 height: 20.0,
               ),
               Container(
-                height: 250,
-                width: 375,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFF313131),
-                ),
-                alignment: Alignment.center,
-                child: Text("Graph",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("My Stocks",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 190,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF313131),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("ETF/IPO",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ]
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Container(
-                height: 200,
-                width: 375,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFF313131),
-                ),
-                alignment: Alignment.center,
-                child: Text("Watchlist/Top losers and gainers",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                child:Icon(Icons.settings, size: 100, color: Colors.white,),
+                height: 100,
+                width: 100,
               ),
               SizedBox(
                 height: 30.0,
+              ),
+              Container(
+                height: 120,
+                width: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Change email address",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 120,
+                width: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Change password",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 120,
+                width: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Notification Settings",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 120,
+                width: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Display Settings",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 120,
+                width: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF313131),
+                ),
+                alignment: Alignment.center,
+                child: Text("Legal Information",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 90,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -133,7 +158,9 @@ class _StocksPageState extends State<StocksPage> {
                     ),
                     color: Color(0xFFF9FAF8),
                   ),
-                  IconButton(onPressed: (){},
+                  IconButton(onPressed: (){
+                    Navigator.pushNamed(context, '/stocks');
+                  },
                     icon: Icon(Icons.attach_money_rounded,
                       size: 50,
                     ),
@@ -154,5 +181,3 @@ class _StocksPageState extends State<StocksPage> {
     );
   }
 }
-
-
