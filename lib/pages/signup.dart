@@ -15,12 +15,16 @@ class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phonenumberController = TextEditingController();
 
   @override
   void disposal() {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmpasswordController.dispose();
+    _nameController.dispose();
+    _phonenumberController.dispose();
     super.dispose();
   }
 
@@ -37,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (_passwordController.text.trim() ==
         _confirmpasswordController.text.trim()) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -76,28 +80,28 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
                 child: Column(
                   children: [
-                    // TextField(
-                    //   decoration: InputDecoration(
-                    //     iconColor: Colors.white,
-                    //     labelText: ("Name"),
-                    //     labelStyle: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Color(0xFFF9FAF8)),
-                    //     hintText: ("Enter your name"),
-                    //     hintStyle: TextStyle(
-                    //       color: Color(0xFFF9FAF8),
-                    //     ),
-                    //     border: OutlineInputBorder(),
-                    //     fillColor: Color(0xFF313131),
-                    //     filled: true,
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //         color: Color(0xFFF0E68C),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   style: TextStyle(color: Color(0xFFF9FAF8)),
-                    // ),
+                    TextField(
+                      decoration: InputDecoration(
+                        iconColor: Colors.white,
+                        labelText: ("Name"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter your name"),
+                        hintStyle: TextStyle(
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                    ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -127,28 +131,28 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    // TextField(
-                    //   decoration: InputDecoration(
-                    //     iconColor: Colors.white,
-                    //     labelText: ("Phone Number"),
-                    //     labelStyle: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Color(0xFFF9FAF8)),
-                    //     hintText: ("Enter phone number"),
-                    //     hintStyle: TextStyle(
-                    //       color: Color(0xFFF9FAF8),
-                    //     ),
-                    //     border: OutlineInputBorder(),
-                    //     fillColor: Color(0xFF313131),
-                    //     filled: true,
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //         color: Color(0xFFF0E68C),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   style: TextStyle(color: Color(0xFFF9FAF8)),
-                    // ),
+                    TextField(
+                      decoration: InputDecoration(
+                        iconColor: Colors.white,
+                        labelText: ("Phone Number"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter phone number"),
+                        hintStyle: TextStyle(
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                    ),
                     SizedBox(
                       height: 20.0,
                     ),

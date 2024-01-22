@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFFFFF8E7)),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
                   foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
                   fixedSize: MaterialStatePropertyAll(Size(280, 60)),
                   shape: MaterialStatePropertyAll(
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Color(0xFFFFF8E7), width: 2),
+                      side: BorderSide(color: Color(0xFFF0E68C), width: 2),
                     ),
                   ),
                 ),
