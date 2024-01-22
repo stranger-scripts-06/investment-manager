@@ -25,7 +25,7 @@ import 'firebase_options.dart';
 // )
 // );
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
       ),
-      initialRoute: '/home', //TODO: Change this back once the homepage is done
+      initialRoute: '/',
       routes: {
         '/': (context) => AuthPage(),
         '/signup': (context) => SignUpPage(),

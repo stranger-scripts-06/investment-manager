@@ -9,9 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //final user = FirebaseAuth.instance.currentUser!;
-  //TODO: Uncomment the above line and ask Sanhita what could be the issue
-
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

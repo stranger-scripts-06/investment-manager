@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -8,6 +10,23 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  //text controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void dispose(){
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future SignUp() async{
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20.0,
                     ),
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         iconColor: Colors.white,
                         labelText: ("Email"),
@@ -118,6 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20.0,
                     ),
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         iconColor: Colors.white,
@@ -175,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  SignUp();
                 }, //make pushReplacementNamed later
                 child: Text(
                   "Sign Up",
