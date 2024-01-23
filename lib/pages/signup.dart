@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,18 +15,48 @@ class _SignUpPageState extends State<SignUpPage> {
   //text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _numberController = TextEditingController();
 
   void dispose(){
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmController.dispose();
+    _nameController.dispose();
+    _numberController.dispose();
     super.dispose();
   }
 
   Future SignUp() async{
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
+    if(confirmPassword()){
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      
+      addDetails(
+          _nameController.text.trim(),
+          _emailController.text.trim(),
+          int.parse(_numberController.text.trim()),
+      );
+    }
+  }
+
+  Future addDetails(String name, String email, int number) async{
+    await FirebaseFirestore.instance.collection('users').add({
+        'name': name,
+        'email': email,
+        'number': number,
+      }
     );
+  }
+
+  bool confirmPassword(){
+    if(_passwordController.text.trim() == _confirmController.text.trim()){
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -62,6 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: _nameController,
                       decoration: InputDecoration(
                         iconColor: Colors.white,
                         labelText: ("Name"),
@@ -112,28 +144,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    // TextField(
-                    //   decoration: InputDecoration(
-                    //     iconColor: Colors.white,
-                    //     labelText: ("Phone Number"),
-                    //     labelStyle: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Color(0xFFF9FAF8)),
-                    //     hintText: ("Enter phone number"),
-                    //     hintStyle: TextStyle(
-                    //       color: Color(0xFFF9FAF8),
-                    //     ),
-                    //     border: OutlineInputBorder(),
-                    //     fillColor: Color(0xFF313131),
-                    //     filled: true,
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //         color: Color(0xFFF0E68C),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   style: TextStyle(color: Color(0xFFF9FAF8)),
-                    // ),
+                    TextField(
+                      controller: _numberController,
+                      decoration: InputDecoration(
+                        iconColor: Colors.white,
+                        labelText: ("Phone Number"),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF9FAF8)),
+                        hintText: ("Enter phone number"),
+                        hintStyle: TextStyle(
+                          color: Color(0xFFF9FAF8),
+                        ),
+                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFF313131),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFF0E68C),
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                    ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -165,6 +198,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20.0,
                     ),
                     TextField(
+                      controller: _confirmController,
                       obscureText: true,
                       decoration: InputDecoration(
                         iconColor: Colors.white,
