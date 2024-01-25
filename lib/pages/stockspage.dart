@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StocksPage extends StatefulWidget {
   @override
@@ -10,15 +11,17 @@ class Stock {
   final String name;
   final String symbol;
 
+  
+
   Stock({required this.name, required this.symbol});
 
   factory Stock.fromMap(Map<String, dynamic> map) {
     return Stock(
-      name: map['name'] ?? '',
-      symbol: map['symbol'] ?? '',
-    );
+        name: map['name'] ?? '',
+        symbol: map['symbol'] ?? '',
+      );
+    }
   }
-}
 
 class _StocksPageState extends State<StocksPage> {
   late List<Stock> myStocks;
@@ -29,14 +32,26 @@ class _StocksPageState extends State<StocksPage> {
     fetchStocks();
   }
 
+  Widget waiting(){
+    return CircularProgressIndicator();
+  }
+
   Future<void> fetchStocks() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    String email = user.email!;
+
+    setState(() {_isLoading = true;});
+
     try {
+      while(ConnectionState == ConnectionState.waiting){
+        waiting();
+      }
       // Replace 'user_id' with the actual user ID
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance
           .collection('users')
-          .doc('user1')
-          .collection('MyStocks')
+          .doc(email)
+          .collection('myStocks')
           .get();
 
       // Map the documents to Stock objects
@@ -46,14 +61,21 @@ class _StocksPageState extends State<StocksPage> {
       setState(() {
         myStocks = fetchedStocks;
       });
+      setState(() {
+          myStocks = fetchedStocks;
+          _isLoading = false; // Set loading state to false after data is fetched
+        }
+      );
     } catch (e) {
       print('Error fetching stocks: $e');
     }
   }
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _isLoading ? waiting() : Scaffold(
       appBar: AppBar(
         title: Text(
           "Stocks",
@@ -89,7 +111,7 @@ class _StocksPageState extends State<StocksPage> {
               ),
               Container(
                 height: 250,
-                width: 375,
+                width: 330,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(20),
@@ -109,7 +131,7 @@ class _StocksPageState extends State<StocksPage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   height: 190,
-                  width: 375,
+                  width: 330,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(20),
@@ -118,7 +140,7 @@ class _StocksPageState extends State<StocksPage> {
                   child: Column(children: [
                     Container(
                       height: 35,
-                      width: 375,
+                      width: 330,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.rectangle,
@@ -130,12 +152,13 @@ class _StocksPageState extends State<StocksPage> {
                         "My Stocks",
                         style: TextStyle(
                           color: Colors.black,
+
                         ),
                       ),
                     ),
                     Container(
                       height: 155,
-                      width: 375,
+                      width: 330,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(20),
@@ -163,7 +186,7 @@ class _StocksPageState extends State<StocksPage> {
               ),
               Container(
                 height: 200,
-                width: 375,
+                width: 330,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(20),

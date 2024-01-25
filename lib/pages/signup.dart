@@ -34,22 +34,39 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      
+      iniStocks("", "", 0, _emailController.text.trim());
+
       addDetails(
-          _nameController.text.trim(),
-          _emailController.text.trim(),
-          int.parse(_numberController.text.trim()),
+        _nameController.text.trim(),
+        _emailController.text.trim(),
+        int.parse(_numberController.text.trim()),
       );
+
     }
   }
 
-  Future addDetails(String name, String email, int number) async{
-    await FirebaseFirestore.instance.collection('users').add({
-        'name': name,
-        'email': email,
-        'number': number,
-      }
-    );
+  //to add user deatails
+  Future<void> addDetails(String name, String email, int number) async {
+    final docId = FirebaseFirestore.instance.collection('users').doc(email);
+    final newData = {
+      'name': name,
+      'email': email,
+      'numbers': number,
+    };
+    await docId.set(newData, SetOptions(merge: true));
+  }
+
+
+  //to initialize the stocks collection(temporary)
+  Future<void> iniStocks(String name, String symbol, int price, String email) async{
+      final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
+      String path = 'users/'+docId+'/myStocks';
+      await FirebaseFirestore.instance.collection(path).add({
+          'name': name,
+          'symbol': symbol,
+          'price': price,
+        }
+      );
   }
 
   bool confirmPassword(){
