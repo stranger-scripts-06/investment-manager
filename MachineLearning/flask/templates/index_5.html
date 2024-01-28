@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Information</title>
+</head>
+<body>
+    <h1>Stock Information</h1>
+    <form method="post">
+        <label for="symbol">Enter Stock Symbol (NSE listed): </label>
+        <input type="text" id="symbol" name="symbol" required>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if data %}
+        {{ data | safe }}
+    {% endif %}
+
+    <form method="post" action="{{ url_for('forecast') }}">
+        <input type="hidden" name="symbol" value="{{ sym }}">
+        <button type="submit" value="buttonvalue">50-Day Forecast</button>
+    </form>
+
+    {% if forecast_data %}
+        <h2>Stock Forecast</h2>
+        {{ forecast_data|safe }}
+
+        <!-- Display the forecast plot -->
+        <img src="{{ url_for('static', filename='forecast_plot.png') }}" alt="Forecast Plot">
+
+    {% endif %}
+
+    <form method="post" action="{{ url_for('buysell') }}">
+        <input type="hidden" name="symbol" value="{{ sym }}">
+        <button type="submit" value="buttonvalue">Get Buy/Sell Recommendation</button>
+    </form>
+
+    <!-- Display Buy/Sell Recommendation -->
+    {% if recommendation %}
+        <h2>Buy/Sell Recommendation</h2>
+        <p>{{ recommendation }}</p>
+    {% endif %}
+
+</body>
+</html>

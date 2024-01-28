@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:investment_manager/pages/analysis.dart';
 
 class SearchResultsPage extends StatefulWidget {
   final String searchQuery;
@@ -64,6 +65,20 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
               children: [
                 SizedBox(height: 20),
                 if (stockData.isNotEmpty) ..._buildStockInfo(),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the second page and pass the variable
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StockAnalysis(stockSymbol: stockSymbol),
+                      ),
+                    );
+                  },
+                  child: Text('Analysis and Prediction'),
+                ),
               ],
             ),
           ),
@@ -87,7 +102,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   Widget _buildParameter(String label, String value) {
-    Color tileColor = Colors.white; // Default color
+    Color tileColor = Color.fromARGB(255, 255, 251, 228); // Default color
 
     if (label == 'Change' || label == 'Change Percent') {
       // Extract numeric value and remove '%' if 'Change Percent'
