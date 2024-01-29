@@ -10,6 +10,7 @@ class StockAnalysis extends StatefulWidget {
 }
 
 class _StockAnalysisState extends State<StockAnalysis> {
+  String imageUrl = 'http://127.0.0.1:5000/static/forecast_plot.png';
   List<dynamic> stockData = [];
   bool _isLoading = false;
 
@@ -62,7 +63,22 @@ class _StockAnalysisState extends State<StockAnalysis> {
                   );
                 },
               ),
-            )
+            ),
+            FutureBuilder(
+              future: http.get(Uri.parse(imageUrl)),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error loading image: ${snapshot.error}');
+                } else {
+                  // Check if the response bodyBytes is not null before accessing it
+                  return snapshot.data?.bodyBytes != null
+                      ? Image.memory(snapshot.data!.bodyBytes)
+                      : Text('Image data is null');
+                }
+              },
+            ),
           ],
         ),
       ),
