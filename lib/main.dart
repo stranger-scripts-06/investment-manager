@@ -3,6 +3,7 @@ import 'package:investment_manager/auth/mainpage.dart';
 import 'package:investment_manager/pages/homepage.dart';
 import 'package:investment_manager/pages/loginpage.dart';
 import 'package:investment_manager/pages/portfoliopage.dart';
+import 'package:investment_manager/pages/prediction.dart';
 import 'package:investment_manager/pages/settingpage.dart';
 import 'package:investment_manager/pages/signup.dart';
 import 'package:investment_manager/pages/stockspage.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MainPage(),
         '/home': (context) => HomePage(),
         '/stocks': (context) => StocksPage(),
-        '/mutualfunds': (context) => MutualFundsPage(),
+        '/prediction': (context) => ForecastApp(),
         '/gold': (context) => BullionPage(),
         '/settings': (context) => SettingsPage(),
         '/portfolio': (context) => PortfolioPage(),
