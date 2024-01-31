@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:investment_manager/pages/analysis.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class SearchResultsPage extends StatefulWidget {
   final String searchQuery;
 
@@ -17,6 +18,16 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   final String suffix = '.BSE';
   String stockSymbol = '';
   Map<String, dynamic> stockData = {};
+
+  Future<void> addStocks(String symbol, double price, String email) async{
+    final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
+    String path = 'users/'+docId+'/myStocks';
+    await FirebaseFirestore.instance.collection(path).add({
+      'symbol': symbol,
+      'price': price,
+    }
+    );
+  }
 
   @override
   void initState() {
@@ -51,6 +62,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+    String email = user.email!;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.searchQuery),
@@ -67,18 +80,43 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                 if (stockData.isNotEmpty) ..._buildStockInfo(),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    // Navigate to the second page and pass the variable
-                    Navigator.push(
-                      context,
+                  onPressed: () {// Navigate to the second page and pass the variable
+                    Navigator.push(context,
                       MaterialPageRoute(
                         builder: (context) =>
                             StockAnalysis(stockSymbol: stockSymbol),
                       ),
                     );
                   },
-                  child: Text('Analysis and Prediction'),
+                  child: Text('More Info'),
+                  style: ButtonStyle(
+                      fixedSize: MaterialStatePropertyAll(Size(110,50))
+                  ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children:[
+                      ElevatedButton(onPressed: (){
+                        addStocks(stockSymbol, double.parse(stockData['05. price']), email);
+                      },
+                          child: Text("Buy Stock",
+                          style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            fixedSize: MaterialStatePropertyAll(Size(120,50))
+                          ),
+                      ),
+                      ElevatedButton(onPressed: (){}, child: Text("Watchlist"),
+                        style: ButtonStyle(
+                            fixedSize: MaterialStatePropertyAll(Size(120,50))
+                        ),),
+                    ]
+                )
               ],
             ),
           ),

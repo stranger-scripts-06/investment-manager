@@ -9,14 +9,14 @@ class StocksPage extends StatefulWidget {
 }
 
 class Stock {
-  final String name;
+  double price=0.0;
   final String symbol;
 
-  Stock({required this.name, required this.symbol});
+  Stock({required this. price, required this. symbol});
 
-  factory Stock.fromMap(Map<String, dynamic> map) {
+  factory Stock.fromMap(Map<dynamic, dynamic> map) {
     return Stock(
-      name: map['name'] ?? '',
+      price: map['price']?.toDouble() ?? 0.0,
       symbol: map['symbol'] ?? '',
     );
   }
@@ -37,7 +37,7 @@ class _StocksPageState extends State<StocksPage> {
   }
 
   Widget waiting() {
-    return CircularProgressIndicator();
+    return Center(child:CircularProgressIndicator());
   }
 
   Future<void> fetchStocks() async {
@@ -46,7 +46,8 @@ class _StocksPageState extends State<StocksPage> {
 
     setState(() {
       _isLoading = true;
-    });
+    }
+    );
 
     try {
       // Replace 'user_id' with the actual user ID
@@ -211,9 +212,9 @@ class _StocksPageState extends State<StocksPage> {
                                         itemCount: myStocks.length,
                                         itemBuilder: (context, index) {
                                           return ListTile(
-                                            title: Text(myStocks[index].name),
+                                            title: Text(myStocks[index].symbol),
                                             subtitle: Text(
-                                                'Symbol: ${myStocks[index].symbol}'),
+                                                'Price: ${myStocks[index].price}'),
                                           );
                                         },
                                       )
