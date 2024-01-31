@@ -29,6 +29,9 @@ class _StockAnalysisState extends State<StockAnalysis> {
   double trailingPE = 0.0;
   double forwardPE = 0.0;
 
+  TextEditingController _symbolController = TextEditingController();
+  List<dynamic> predictions = [];
+
   Future<void> fetchData() async {
     try {
       final response = await http.post(
@@ -62,6 +65,32 @@ class _StockAnalysisState extends State<StockAnalysis> {
       }
     } catch (error) {
       print('Error: $error');
+    }
+  }
+
+  Future<void> getForecast() async {
+    final String apiUrl = 'http://127.0.0.1:5000/forecast';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {'symbol': _symbolController.text},
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        setState(() {
+          predictions = List<dynamic>.from(data['predictions']);
+        });
+      } else {
+        setState(() {
+          // Handle error scenario
+        });
+      }
+    } catch (error) {
+      setState(() {
+        // Handle error scenario
+      });
     }
   }
 
@@ -161,6 +190,20 @@ class _StockAnalysisState extends State<StockAnalysis> {
               Text(
                 'Forward PE: $forwardPE',
                 style: TextStyle(color: Colors.white),
+              ),
+              TextField(
+                controller: _symbolController,
+                decoration: InputDecoration(labelText: 'Enter symbol'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => getForecast(),
+                child: Text('Get Forecast'),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Predictions: ${predictions.join(', ')}',
+                style: TextStyle(fontSize: 16),
               ),
             ],
           ),
