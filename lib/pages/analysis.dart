@@ -42,24 +42,26 @@ class _StockAnalysisState extends State<StockAnalysis> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> result =
             json.decode(response.body); // Use json.decode instead of jsonDecode
-        setState(() {
-          data = result.toString(); // Convert map to string for display
-          quoteType = result['quoteType'].toString();
-          longName = result['longName'].toString();
-          industry = result['industry'].toString();
-          fiftyTwoWeekHigh =
-              double.parse(result['fiftyTwoWeekHigh'].toString());
-          dividendRate = double.parse(result['dividendRate'].toString());
-          dividendYield = double.parse(result['dividendYield'].toString());
-          marketCap = double.parse(result['marketCap'].toString());
-          debtToEquity = double.parse(result['debtToEquity'].toString());
-          returnOnEquity = double.parse(result['returnOnEquity'].toString());
-          ebitdaMargins = double.parse(result['ebitdaMargins'].toString());
-          trailingEps = double.parse(result['trailingEps'].toString());
-          forwardEps = double.parse(result['forwardEps'].toString());
-          trailingPE = double.parse(result['trailingPE'].toString());
-          forwardPE = double.parse(result['forwardPE'].toString());
-        });
+        if (mounted) {
+          setState(() {
+            data = result.toString(); // Convert map to string for display
+            quoteType = result['quoteType'].toString();
+            longName = result['longName'].toString();
+            industry = result['industry'].toString();
+            fiftyTwoWeekHigh =
+                double.parse(result['fiftyTwoWeekHigh'].toString());
+            dividendRate = double.parse(result['dividendRate'].toString());
+            dividendYield = double.parse(result['dividendYield'].toString());
+            marketCap = double.parse(result['marketCap'].toString());
+            debtToEquity = double.parse(result['debtToEquity'].toString());
+            returnOnEquity = double.parse(result['returnOnEquity'].toString());
+            ebitdaMargins = double.parse(result['ebitdaMargins'].toString());
+            trailingEps = double.parse(result['trailingEps'].toString());
+            forwardEps = double.parse(result['forwardEps'].toString());
+            trailingPE = double.parse(result['trailingPE'].toString());
+            forwardPE = double.parse(result['forwardPE'].toString());
+          });
+        }
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -68,7 +70,6 @@ class _StockAnalysisState extends State<StockAnalysis> {
     }
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -166,7 +167,6 @@ class _StockAnalysisState extends State<StockAnalysis> {
                 'Forward PE: $forwardPE',
                 style: TextStyle(color: Colors.white),
               ),
-              
             ],
           ),
         ),
