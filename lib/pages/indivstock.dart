@@ -111,53 +111,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children:[
                       ElevatedButton(onPressed: (){
-                        showDialog(context: context, builder: (context){
-                          return AlertDialog(
-                            backgroundColor: Colors.grey,
-                            content: Container(
-                              height: 130,
-                              width: 200,
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    controller: _quantityController,
-                                    decoration: InputDecoration(
-                                      iconColor: Colors.white,
-                                      labelText: ("Quantity"),
-                                      labelStyle: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFFF9FAF8)),
-                                      hintText: ("Enter the number of stocks you want"),
-                                      hintStyle: TextStyle(
-                                        color: Color(0xFFF9FAF8),
-                                      ),
-                                      border: OutlineInputBorder(),
-                                      fillColor: Color(0xFF313131),
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFF0E68C),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  ElevatedButton(onPressed: (){
-                                      var quantity = int.parse(_quantityController.text.trim());
-                                      addStocks(stockSymbol, double.parse(stockData['05. price']), quantity, email);
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pushNamed('/stocks');
-                                    },
-                                      child: Text("Add to my stocks"),
-                                    ),
-                                  ],
-                                ),
-                            ),
-                            );
-                            },
-                          );
+                          addStocks(stockSymbol, double.parse(stockData['05. price']), 1, email);
                         },
                           child: Text("Buy Stock",
                           style: TextStyle(
