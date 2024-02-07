@@ -34,7 +34,8 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      iniStocks("", 0, _emailController.text.trim());
+      iniStocks("", 0, 0, _emailController.text.trim());
+      iniStocksWatchlist("", 0, _emailController.text.trim());
 
       addDetails(
         _nameController.text.trim(),
@@ -58,14 +59,25 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
   //to initialize the stocks collection(temporary)
-  Future<void> iniStocks(String symbol, double price, String email) async{
+  Future<void> iniStocks(String symbol, double price, int quantity, String email) async{
       final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
       String path = 'users/'+docId+'/myStocks';
       await FirebaseFirestore.instance.collection(path).add({
           'symbol': symbol,
           'price': price,
+          'quantity': quantity,
         }
       );
+  }
+
+  Future<void> iniStocksWatchlist(String symbol, double price, String email) async{
+    final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
+    String path = 'users/'+docId+'/myWatchlist';
+    await FirebaseFirestore.instance.collection(path).add({
+      'symbol': symbol,
+      'price': price,
+    }
+    );
   }
 
   bool confirmPassword(){

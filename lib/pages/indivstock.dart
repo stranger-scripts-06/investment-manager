@@ -14,17 +14,28 @@ class SearchResultsPage extends StatefulWidget {
 }
 
 class _SearchResultsPageState extends State<SearchResultsPage> {
+  final _quantityController = TextEditingController();
   final String apiKey = 'YOUR_FREE_API_KEY';
   final String suffix = '.BSE';
   String stockSymbol = '';
   Map<String, dynamic> stockData = {};
 
-  Future<void> addStocks(String symbol, double price, String email) async{
+  Future<void> addStocks(String symbol, double price, int quantity, String email) async{
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
     String path = 'users/'+docId+'/myStocks';
     await FirebaseFirestore.instance.collection(path).add({
       'symbol': symbol,
-      'price': price,
+      'price' : price,
+      'quantity': quantity,
+    }
+    );
+  }
+
+  Future<void> addWatchlist(String symbol, String email) async{
+    final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
+    String path = 'users/'+docId+'/Watchlist';
+    await FirebaseFirestore.instance.collection(path).add({
+      'symbol': symbol,
     }
     );
   }
@@ -100,8 +111,54 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children:[
                       ElevatedButton(onPressed: (){
-                        addStocks(stockSymbol, double.parse(stockData['05. price']), email);
-                      },
+                        showDialog(context: context, builder: (context){
+                          return AlertDialog(
+                            backgroundColor: Colors.grey,
+                            content: Container(
+                              height: 130,
+                              width: 200,
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    controller: _quantityController,
+                                    decoration: InputDecoration(
+                                      iconColor: Colors.white,
+                                      labelText: ("Quantity"),
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFF9FAF8)),
+                                      hintText: ("Enter the number of stocks you want"),
+                                      hintStyle: TextStyle(
+                                        color: Color(0xFFF9FAF8),
+                                      ),
+                                      border: OutlineInputBorder(),
+                                      fillColor: Color(0xFF313131),
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFF0E68C),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  ElevatedButton(onPressed: (){
+                                      var quantity = int.parse(_quantityController.text.trim());
+                                      addStocks(stockSymbol, double.parse(stockData['05. price']), quantity, email);
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushNamed('/stocks');
+                                    },
+                                      child: Text("Add to my stocks"),
+                                    ),
+                                  ],
+                                ),
+                            ),
+                            );
+                            },
+                          );
+                        },
                           child: Text("Buy Stock",
                           style: TextStyle(
                               fontSize: 15,
@@ -111,7 +168,9 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                             fixedSize: MaterialStatePropertyAll(Size(120,50))
                           ),
                       ),
-                      ElevatedButton(onPressed: (){}, child: Text("Watchlist"),
+                      ElevatedButton(onPressed: (){
+                        addWatchlist(stockSymbol, email);
+                      }, child: Text("Watchlist"),
                         style: ButtonStyle(
                             fixedSize: MaterialStatePropertyAll(Size(120,50))
                         ),),

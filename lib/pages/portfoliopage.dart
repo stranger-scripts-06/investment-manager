@@ -69,7 +69,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
   }
 
   Widget buildDisplay(){
-    if(_displayState == "Stocks"){
       return (myStocks != null
             ? ListView.builder(
                 itemCount: myStocks.length,
@@ -83,12 +82,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
       )
           : CircularProgressIndicator());
     }
-    else
-      return Text("No");
-  }
 
   bool _isLoading = false;
-  String _displayState = "";
 
   @override
   Widget build(BuildContext context) {
@@ -165,47 +160,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
               ),
               SizedBox(
                 height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: (){},
-                    child: Text("Summary",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: (){
-                      setState(() {
-                        _displayState = "Stocks";
-                      });
-                    },
-                    child: Text("Stocks",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: (){},
-                    child: Text("Mutual Funds",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: (){},
-                    child: Text("Bullion",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
               ),
               Container(
                 height: 450,
