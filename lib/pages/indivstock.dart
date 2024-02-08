@@ -31,6 +31,35 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     );
   }
 
+
+  void _showQuantityDialog(String stockSymbol, double price, String email) {
+    int quantity = 1; // Default quantity
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter the Quantity of stock'),
+          content: TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: 'Quantity'),
+            onChanged: (value) {
+              quantity = int.tryParse(value) ?? 1; // If parsing fails, default to 1
+            },
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                addStocks(stockSymbol, price, quantity, email);
+              },
+              child: Text('Add to my stocks'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> addWatchlist(String symbol, String email) async{
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
     String path = 'users/'+docId+'/Watchlist';
@@ -111,8 +140,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children:[
                       ElevatedButton(onPressed: (){
-                          addStocks(stockSymbol, double.parse(stockData['05. price']), 1, email);
-                        },
+                        _showQuantityDialog(stockSymbol, double.parse(stockData['05. price']), email);
+                      },
                           child: Text("Buy Stock",
                           style: TextStyle(
                               fontSize: 15,

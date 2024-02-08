@@ -410,7 +410,6 @@ class _StocksPageState extends State<StocksPage> {
                                                         ),
                                                       ),
                                                       ElevatedButton(onPressed: (){}, child: Text("More Info")),
-
                                                     ],
                                                   ),
                                                 ),

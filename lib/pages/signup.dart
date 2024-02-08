@@ -62,22 +62,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> iniStocks(String symbol, double price, int quantity, String email) async{
       final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
       String path = 'users/'+docId+'/myStocks';
-      await FirebaseFirestore.instance.collection(path).add({
-          'symbol': symbol,
-          'price': price,
-          'quantity': quantity,
-        }
-      );
+      await FirebaseFirestore.instance.collection(path);
   }
 
   Future<void> iniStocksWatchlist(String symbol, double price, String email) async{
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-    String path = 'users/'+docId+'/myWatchlist';
-    await FirebaseFirestore.instance.collection(path).add({
-      'symbol': symbol,
-      'price': price,
-    }
-    );
+    String path = 'users/'+docId+'/Watchlist';
+    await FirebaseFirestore.instance.collection(path);
   }
 
   bool confirmPassword(){
