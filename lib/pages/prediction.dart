@@ -37,45 +37,114 @@ class _ForecastAppState extends State<ForecastApp> {
     }
   }
 
+  Widget _buildInfoText(String label, double value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 54, 62, 105),
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              value.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Forecast App'),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 30, 35, 62),
+        title: Text(
+          'Stock Prediction',
+          style: TextStyle(color: Colors.white),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 212, 242, 129),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
                 controller: _symbolController,
-                decoration: InputDecoration(labelText: 'Enter symbol'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => getForecast(),
-                child: Text('Get Forecast'),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Predictions:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: predictions.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text('Day ${index + 1}: ${predictions[index]}'),
-                    );
-                  },
+                decoration: InputDecoration(
+                  hintText: 'Enter symbol',
+                  border: InputBorder.none, // Remove border
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ElevatedButton(
+                onPressed: () => getForecast(),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 30, 35, 62), // Button color
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  // Button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Button border radius
+                  ),
+                ),
+                child: Text(
+                  'Get Predictions',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Predictions:',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: predictions.length,
+                itemBuilder: (context, index) {
+                  return _buildInfoText(
+                    'Day ${index + 1}',
+                    predictions[index],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

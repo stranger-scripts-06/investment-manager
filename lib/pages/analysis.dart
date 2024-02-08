@@ -80,7 +80,8 @@ class _StockAnalysisState extends State<StockAnalysis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stock Information'),
+        backgroundColor: const Color.fromARGB(255, 247, 231, 186),
+        title: Text('Stock Information for : ${widget.stockSymbol}'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,89 +89,106 @@ class _StockAnalysisState extends State<StockAnalysis> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Stock Information for ${widget.stockSymbol}',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 212, 242, 129),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Text(
+                  '$longName',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(height: 20),
-              // Text(
-              //   'Data: $data',
-              //   style: TextStyle(color: Colors.white),
-              // ),
-              SizedBox(height: 20),
-              Text(
-                'Quote Type: $quoteType',
-                style: TextStyle(color: Colors.white),
+              Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 30, 35, 62),
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(8.0),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '$industry',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 30, 35, 62),
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(8.0),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '$quoteType',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ]),
               ),
               SizedBox(height: 20),
-              Text(
-                'Long Name: $longName',
-                style: TextStyle(color: Colors.white),
-              ),
+              _buildInfoText('52-Week High:', fiftyTwoWeekHigh),
+              _buildInfoText('Dividend Rate:', dividendRate),
+              _buildInfoText('Dividend Yield:', dividendYield),
+              _buildInfoText('Market Cap:', marketCap),
+              _buildInfoText('Debt to Equity:', debtToEquity),
+              _buildInfoText('Return on Equity:', returnOnEquity),
+              _buildInfoText('EBITDA Margins:', ebitdaMargins),
+              _buildInfoText('Trailing EPS:', trailingEps),
+              _buildInfoText('Forward EPS:', forwardEps),
+              _buildInfoText('Trailing PE:', trailingPE),
+              _buildInfoText('Forward PE:', forwardPE),
               SizedBox(height: 20),
-              Text(
-                'Industry: $industry',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                '52-Week High: $fiftyTwoWeekHigh',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Dividend Rate: $dividendRate',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Dividend Yield: $dividendYield',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Market Cap: $marketCap',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Debt to Equity: $debtToEquity',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Return on Equity: $returnOnEquity',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'EBITDA Margins: $ebitdaMargins',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Trailing EPS: $trailingEps',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Forward EPS: $forwardEps',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Trailing PE: $trailingPE',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Forward PE: $forwardPE',
-                style: TextStyle(color: Colors.white),
-              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget _buildInfoText(String label, double value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 54, 62, 105),
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            value.toStringAsFixed(2),
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
