@@ -142,14 +142,14 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                       ElevatedButton(onPressed: (){
                         _showQuantityDialog(stockSymbol, double.parse(stockData['05. price']), email);
                       },
-                          child: Text("Buy Stock",
+                        child: Text("Buy Stock",
                           style: TextStyle(
-                              fontSize: 15,
-                            ),
+                            fontSize: 15,
                           ),
-                          style: ButtonStyle(
+                        ),
+                        style: ButtonStyle(
                             fixedSize: MaterialStatePropertyAll(Size(120,50))
-                          ),
+                        ),
                       ),
                       ElevatedButton(onPressed: (){
                         addWatchlist(stockSymbol, email);

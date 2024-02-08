@@ -60,9 +60,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   //to initialize the stocks collection(temporary)
   Future<void> iniStocks(String symbol, double price, int quantity, String email) async{
-      final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-      String path = 'users/'+docId+'/myStocks';
-      await FirebaseFirestore.instance.collection(path);
+    final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
+    String path = 'users/'+docId+'/myStocks';
+    await FirebaseFirestore.instance.collection(path);
   }
 
   Future<void> iniStocksWatchlist(String symbol, double price, String email) async{

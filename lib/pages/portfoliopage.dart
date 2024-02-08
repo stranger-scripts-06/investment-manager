@@ -69,9 +69,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
       calculateBuyTotal(fetchedStocks);
 
       setState(() {
-          myStocks = fetchedStocks;
-          _isLoading = false;
-        }
+        myStocks = fetchedStocks;
+        _isLoading = false;
+      }
       );
     } catch (e) {
       print('Error fetching stocks: $e');
@@ -231,9 +231,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
-      return _isLoading
-          ? waiting()
-    : Scaffold(
+    return _isLoading
+        ? waiting()
+        : Scaffold(
       appBar: AppBar(
         title: Text("Protfolio",
           style: TextStyle(
