@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:investment_manager/pages/piechart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,12 +58,7 @@ class _HomePageState extends State<HomePage> {
                   color: Color(0xFF313131),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  "Pie Chart",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                child: MyPieChart(),
               ),
               SizedBox(
                 height: 30.0,

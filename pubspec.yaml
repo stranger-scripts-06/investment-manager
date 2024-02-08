@@ -45,6 +45,10 @@ dependencies:
   webview_flutter: ^4.5.0
   flutter_webview_plugin: ^0.4.0
   flutter_neumorphic: ^3.0.0
+  fl_chart: ^0.65.0
+  equatable: ^2.0.5
+  collection: ^1.17.2
+  meta: ^1.9.1
 
 dev_dependencies:
   flutter_test:
