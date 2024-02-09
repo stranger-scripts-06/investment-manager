@@ -8,8 +8,10 @@ class ForecastApp extends StatefulWidget {
 }
 
 class _ForecastAppState extends State<ForecastApp> {
+  String imageUrl = 'http://127.0.0.1:5000/static/forecast_plot.png';
   TextEditingController _symbolController = TextEditingController();
   List<dynamic> predictions = [];
+  bool _isLoading = false;
 
   Future<void> getForecast() async {
     final String apiUrl = 'http://127.0.0.1:5000/forecast';
@@ -75,6 +77,7 @@ class _ForecastAppState extends State<ForecastApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 30, 35, 62),
         title: Text(
           'Stock Prediction',
@@ -125,14 +128,69 @@ class _ForecastAppState extends State<ForecastApp> {
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              'Predictions:',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  // Perform future request to fetch image
+                  http.get(Uri.parse(imageUrl)).then((response) {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                  }).catchError((error) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    print('Error loading image: $error');
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 30, 35, 62), // Button color
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  // Button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Button border radius
+                  ),
+                ),
+                child: Text(
+                  'Show Graph',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
+            if (_isLoading)
+              FutureBuilder(
+                future: http.get(Uri.parse(imageUrl)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error loading image: ${snapshot.error}');
+                  } else {
+                    // Check if the response bodyBytes is not null before accessing it
+                    return snapshot.data?.bodyBytes != null
+                        ? Image.memory(snapshot.data!.bodyBytes)
+                        : Text('Image data is null');
+                  }
+                },
+              ),
+            SizedBox(height: 20),
+            // Text(
+            //   'Predictions:',
+            //   style: TextStyle(
+            //       fontSize: 20,
+            //       fontWeight: FontWeight.bold,
+            //       color: Colors.white),
+            // ),
+            // SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: predictions.length,
