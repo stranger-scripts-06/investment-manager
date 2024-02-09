@@ -128,9 +128,21 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                       ),
                     );
                   },
-                  child: Text('More Info'),
+                  child: Text('More Info',
+                    style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ButtonStyle(
-                      fixedSize: MaterialStatePropertyAll(Size(110,50))
+                    backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                    foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+                    fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0), //
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -142,21 +154,42 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                       ElevatedButton(onPressed: (){
                         _showQuantityDialog(stockSymbol, double.parse(stockData['05. price']), email);
                       },
-                        child: Text("Buy Stock",
+                        child: Text("Add Stock",
                           style: TextStyle(
                             fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         style: ButtonStyle(
-                            fixedSize: MaterialStatePropertyAll(Size(120,50))
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                          foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+                          fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0), //
+                            ),
+                          ),
                         ),
                       ),
                       ElevatedButton(onPressed: (){
                         addWatchlist(stockSymbol, email);
-                      }, child: Text("Watchlist"),
+                      }, child: Text("Watchlist",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                         style: ButtonStyle(
-                            fixedSize: MaterialStatePropertyAll(Size(120,50))
-                        ),),
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                          foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
+                          fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0), //
+                            ),
+                          ),
+                        ),
+                      ),
                     ]
                 )
               ],

@@ -15,8 +15,8 @@ class MyPieChart extends StatefulWidget {
 
 class Stock {
   double price=0.0;
-  int quantity=0;
   final String symbol;
+  int quantity=0;
 
   Stock({required this.quantity, required this. price, required this. symbol});
 
@@ -30,17 +30,19 @@ class Stock {
 }
 
 class _MyPieChartState extends State<MyPieChart> {
-  late List<Stock> myStocks;
-  final String apiKey = 'YOUR_FREE_API_KEY';
+  late List<Stock> myStocks = [];
+  final String apiKey = 'SILP9TO8T400LMTL';
   final String suffix = '.BSE';
   String stockSymbol = '';
   Map<String, dynamic> stockData = {};
+  double currentTotal=0;
+  List<double> stockPrice = [];
+  int index=0;
 
   @override
   void initState() {
     super.initState();
     fetchStocks();
-
   }
 
   Future<void> fetchStocks() async {
@@ -59,6 +61,7 @@ class _MyPieChartState extends State<MyPieChart> {
       // Map the documents to Stock objects
       List<Stock> fetchedStocks =
       snapshot.docs.map((doc) => Stock.fromMap(doc.data())).toList();
+
 
       setState(() {
         myStocks = fetchedStocks;
@@ -82,8 +85,9 @@ class _MyPieChartState extends State<MyPieChart> {
         final Map<String, dynamic> data = json.decode(response.body);
 
         if (data.containsKey('Global Quote')) {
-          double price = double.parse(data['05. price']);
+          double price = double.parse(data['Global Quote']['05. price']);
           price = price*quantity;
+          stockPrice.add(price);
           currentTotal = currentTotal+price;
           return data['Global Quote'];
         }
@@ -115,30 +119,57 @@ class _MyPieChartState extends State<MyPieChart> {
   }
 
   List<PieChartSectionData> createSectionData(){
+
+    fetchStockDataForAll(myStocks);
     List<PieChartSectionData> sectionData = [];
+    if (currentTotal == 0) {
+      // Handle the case where currentTotal is zero to avoid division by zero
+      return [
+        PieChartSectionData(
+          value: 100,
+          color: Colors.red,
+        )
+      ];
+    }
     for(Stock i in myStocks){
+      if (i.price == 0) {
+        continue;
+      }
+      double thisStockPrice = stockPrice[index];
       sectionData.add(
         PieChartSectionData(
-          value: ((i.price/currentTotal)*100),
-          color: getRandomColor(),
+          value: ((thisStockPrice/currentTotal)*100),
+          color: Colors.grey,
         )
       );
+      index++;
     }
     return sectionData;
   }
 
-  double currentTotal = 0;
   List<PieChartSectionData> p1=[];
   @override
 
   Widget build(BuildContext context) {
     p1 = createSectionData();
-    return PieChart(
-      PieChartData(
-        sections: p1,
-      ),
-      swapAnimationDuration: const Duration(milliseconds: 750),
-      swapAnimationCurve: Curves.easeInOut,
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: fetchStockDataForAll(myStocks),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // or any loading indicator
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          p1 = createSectionData();
+          return PieChart(
+            PieChartData(
+              sections: p1,
+            ),
+            swapAnimationDuration: const Duration(milliseconds: 750),
+            swapAnimationCurve: Curves.easeInOut,
+          );
+        }
+      },
     );
   }
 }

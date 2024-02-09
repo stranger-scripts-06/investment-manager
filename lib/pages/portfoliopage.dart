@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:investment_manager/pages/indivstock.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class PortfolioPage extends StatefulWidget {
@@ -33,6 +32,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
   final String suffix = '.BSE';
   String stockSymbol = '';
   Map<String, dynamic> stockData = {};
+  bool _isLoading = false;
+  double currentTotal=0;
+  double boughtTotal=0;
 
   @override
   void initState() {
@@ -91,7 +93,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
         final Map<String, dynamic> data = json.decode(response.body);
 
         if (data.containsKey('Global Quote')) {
-          double price = double.parse(data['05. price']);
+          double price = double.parse(data['Global Quote']['05. price']);
           price = price*quantity;
           currentTotal = currentTotal+price;
           return data['Global Quote'];
@@ -225,9 +227,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
       },
     );
   }
-  bool _isLoading = false;
-  double currentTotal=0;
-  double boughtTotal=0;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +234,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
         ? waiting()
         : Scaffold(
       appBar: AppBar(
-        title: Text("Protfolio",
+        title: Text("Portfolio",
           style: TextStyle(
             color: Color(0xFFF9FAF8),
             fontSize: 28.0,
@@ -279,7 +278,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                         color: Colors.black,
                       ),
                       alignment: Alignment.center,
-                      child: Text("Net Worth: ${currentTotal}",
+                      child: Text("Net Worth: $currentTotal",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -294,7 +293,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                         color: Colors.black,
                       ),
                       alignment: Alignment.center,
-                      child: Text("Day's Gain: ${currentTotal-boughtTotal}",
+                      child: Text("Day's Gain: 0.0",
                         style: TextStyle(
                           color: Colors.white,
                         ),

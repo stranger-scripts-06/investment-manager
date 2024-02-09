@@ -155,52 +155,6 @@ class _HomePageState extends State<HomePage> {
                 height: 30.0,
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/gold');
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      child:
-                          Image.asset("assets/Icons/goldIconVectorStall.png"),
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      width: 28,
-                    ),
-                    Text(
-                      "Gold",
-                      style: TextStyle(
-                        color: Color(0xFFF9FAF8),
-                        fontSize: 28,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 140,
-                    ),
-                    Container(
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFFF9FAF8),
-                      ),
-                    ),
-                  ],
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFF313131)),
-                  fixedSize: MaterialStatePropertyAll(Size(375, 60)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50), //
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
                 onPressed: () {},
                 child: Row(
                   children: [
