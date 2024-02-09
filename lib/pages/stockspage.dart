@@ -353,7 +353,11 @@ class _StocksPageState extends State<StocksPage> {
                                                         Text('I have no idea ', style: TextStyle(color: tileColor),),
                                                       ],
                                                     ),
-                                                    ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                    ElevatedButton(onPressed: (){ Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                        builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                        child: Text("More Info")),
 
                                                   ],
                                                 ),
@@ -414,7 +418,13 @@ class _StocksPageState extends State<StocksPage> {
                                                           withJavascript: true,
                                                         ),
                                                       ),
-                                                      ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                      ElevatedButton(onPressed: (){
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                            builder: (context) => SearchResultsPage(searchQuery: stockSymbol),
+                                                        ),);
+                                                      }, child: Text("More Info")),
                                                     ],
                                                   ),
                                                 ),
@@ -557,7 +567,13 @@ class _StocksPageState extends State<StocksPage> {
                                                           Text('3984.50 ', style: TextStyle(color: Colors.redAccent),),
                                                         ],
                                                       ),
-                                                      ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                      ElevatedButton(onPressed: (){
+
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                          child: Text("More Info")),
 
                                                     ],
                                                   ),
@@ -618,7 +634,11 @@ class _StocksPageState extends State<StocksPage> {
                                                         withJavascript: true,
                                                       ),
                                                     ),
-                                                    ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                    ElevatedButton(onPressed: (){ Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                        child: Text("More Info")),
 
                                                   ],
                                                 ),
