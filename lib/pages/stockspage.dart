@@ -14,13 +14,15 @@ class StocksPage extends StatefulWidget {
 class Stock {
   double price=0.0;
   final String symbol;
+  int quantity =0;
 
-  Stock({required this. price, required this. symbol});
+  Stock({required this.quantity, required this. price, required this. symbol});
 
   factory Stock.fromMap(Map<dynamic, dynamic> map) {
     return Stock(
       price: map['price']?.toDouble() ?? 0.0,
       symbol: map['symbol'] ?? '',
+      quantity: map['quantity']?.toInt() ?? 0,
     );
   }
 }
@@ -187,6 +189,9 @@ class _StocksPageState extends State<StocksPage> {
                   icon: Icon(Icons.notifications),
                   color: Color(0xFFF9FAF8),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 IconButton(
                   onPressed: () {
                     _performSearch(searchController.text);
@@ -225,7 +230,7 @@ class _StocksPageState extends State<StocksPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 20.0,
+                      height: 30.0,
                     ),
                     Container(
                       height: 190,
@@ -348,7 +353,11 @@ class _StocksPageState extends State<StocksPage> {
                                                         Text('I have no idea ', style: TextStyle(color: tileColor),),
                                                       ],
                                                     ),
-                                                    ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                    ElevatedButton(onPressed: (){ Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                        builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                        child: Text("More Info")),
 
                                                   ],
                                                 ),
@@ -397,7 +406,7 @@ class _StocksPageState extends State<StocksPage> {
                                                         children: [
                                                           Text("Expected Price:"),
                                                           SizedBox(width: 40),
-                                                          Text('I have no idea ', style: TextStyle(color: tileColor),),
+                                                          Text(' 712.23 ', style: TextStyle(color: tileColor),),
                                                         ],
                                                       ),
                                                       Container(
@@ -409,7 +418,13 @@ class _StocksPageState extends State<StocksPage> {
                                                           withJavascript: true,
                                                         ),
                                                       ),
-                                                      ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                      ElevatedButton(onPressed: (){
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                            builder: (context) => SearchResultsPage(searchQuery: stockSymbol),
+                                                        ),);
+                                                      }, child: Text("More Info")),
                                                     ],
                                                   ),
                                                 ),
@@ -427,10 +442,10 @@ class _StocksPageState extends State<StocksPage> {
                       ]),
                     ),
                     SizedBox(
-                      height: 15.0,
+                      height: 60.0,
                     ),
                     Container(
-                      height: 190,
+                      height: 220,
                       width: 330,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
@@ -549,10 +564,16 @@ class _StocksPageState extends State<StocksPage> {
                                                         children: [
                                                           Text("Expected Price:"),
                                                           SizedBox(width: 40),
-                                                          Text('I have no idea ', style: TextStyle(color: tileColor),),
+                                                          Text('3984.50 ', style: TextStyle(color: Colors.redAccent),),
                                                         ],
                                                       ),
-                                                      ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                      ElevatedButton(onPressed: (){
+
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                          child: Text("More Info")),
 
                                                     ],
                                                   ),
@@ -613,7 +634,11 @@ class _StocksPageState extends State<StocksPage> {
                                                         withJavascript: true,
                                                       ),
                                                     ),
-                                                    ElevatedButton(onPressed: (){}, child: Text("More Info")),
+                                                    ElevatedButton(onPressed: (){ Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
+                                                        child: Text("More Info")),
 
                                                   ],
                                                 ),
@@ -633,7 +658,7 @@ class _StocksPageState extends State<StocksPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 50.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

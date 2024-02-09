@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:investment_manager/pages/piechart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,12 +58,7 @@ class _HomePageState extends State<HomePage> {
                   color: Color(0xFF313131),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  "Pie Chart",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                child: MyPieChart(),
               ),
               SizedBox(
                 height: 30.0,
@@ -136,52 +132,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(
                       width: 38,
-                    ),
-                    Container(
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFFF9FAF8),
-                      ),
-                    ),
-                  ],
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFF313131)),
-                  fixedSize: MaterialStatePropertyAll(Size(375, 60)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50), //
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/gold');
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      child:
-                          Image.asset("assets/Icons/goldIconVectorStall.png"),
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      width: 28,
-                    ),
-                    Text(
-                      "Gold",
-                      style: TextStyle(
-                        color: Color(0xFFF9FAF8),
-                        fontSize: 28,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 140,
                     ),
                     Container(
                       child: Icon(
