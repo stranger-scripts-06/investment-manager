@@ -78,7 +78,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   Future<void> fetchStockData() async {
     final String symbolWithBSE = '$stockSymbol$suffix'.replaceAll(' ', '%20');
-    final String apiUrl = '';
+    final String apiUrl = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbolWithBSE&apikey=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
