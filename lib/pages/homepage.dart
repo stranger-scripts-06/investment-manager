@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:investment_manager/pages/piechart.dart';
+import 'package:investment_manager/pages/portfoliopage.dart';
 import 'package:investment_manager/pages/prediction.dart';
 import 'package:investment_manager/pages/stockspage.dart';
 
@@ -217,44 +218,23 @@ class _HomePageState extends State<HomePage> {
   void _navigateToPage(String routeName) {
     switch (routeName) {
       case '/stocks':
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return FadeTransition(
-              opacity: animation,
-              child: StocksPage(), // Replace with the StocksPage widget
-            );
-          },
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            );
-          },
-        ));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StocksPage()),
+        );
         break;
       case '/prediction':
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return FadeTransition(
-              opacity: animation,
-              child: ForecastApp(), // Replace with the PredictionPage widget
-            );
-          },
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            );
-          },
-        ));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForecastApp()),
+        );
         break;
-      // Add more cases for other routes as needed
+      case '/portfolio':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PortfolioPage()),
+        );
+        break;
       default:
         break;
     }

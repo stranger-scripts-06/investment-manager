@@ -14,6 +14,7 @@ class _ForecastAppState extends State<ForecastApp> {
   List<dynamic> predictions = [];
   String recommendation = '';
   bool _isLoading = false;
+  bool showRecommendationImage = false;
 
   Future<void> getForecast() async {
     final String apiUrl = 'http://127.0.0.1:5000/forecast';
@@ -55,7 +56,17 @@ class _ForecastAppState extends State<ForecastApp> {
         setState(() {
           // Extract recommendation value as a string
           recommendation = data['buy_sell_ind'].toString();
+          showRecommendationImage = true;
         });
+        // if (recommendation == 'STRONG BUY') {
+        //   imagePath = 'assets/Image/strong_buy.png';
+        // } else if (recommendation == 'BUY') {
+        //   imagePath = 'assets/Image/buy.png';
+        // } else if (recommendation == 'SELL') {
+        //   imagePath = 'assets/Image/sell.png';
+        // } else {
+        //   imagePath = 'assets/Image/hold.png';
+        // }
       } else {
         setState(() {
           // Handle error scenario
@@ -117,192 +128,216 @@ class _ForecastAppState extends State<ForecastApp> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          // Content for the first tab
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _symbolController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter symbol',
-                      border: InputBorder.none, // Remove border
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: _currentIndex == 0
+                ? Padding(
+                    key: ValueKey<int>(0),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextField(
+                            controller: _symbolController,
+                            decoration: InputDecoration(
+                              hintText: 'Enter symbol',
+                              border: InputBorder.none, // Remove border
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () => getForecast(),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 30, 35, 62),
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Get Predictions',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: predictions.length,
+                            itemBuilder: (context, index) {
+                              return _buildInfoText(
+                                'Day ${index + 1}',
+                                predictions[index],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () => getForecast(),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 30, 35, 62), // Button color
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      // Button padding
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), // Button border radius
-                      ),
-                    ),
-                    child: Text(
-                      'Get Predictions',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: predictions.length,
-                    itemBuilder: (context, index) {
-                      return _buildInfoText(
-                        'Day ${index + 1}',
-                        predictions[index],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+                  )
+                : SizedBox.shrink(),
           ),
-          // Content for the second tab
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _symbolController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter symbol',
-                      border: InputBorder.none, // Remove border
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: _currentIndex == 1
+                ? Padding(
+                    key: ValueKey<int>(1),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextField(
+                            controller: _symbolController,
+                            decoration: InputDecoration(
+                              hintText: 'Enter symbol',
+                              border: InputBorder.none, // Remove border
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              // Perform future request to fetch image
+                              http.get(Uri.parse(imageUrl)).then((response) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                              }).catchError((error) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                print('Error loading image: $error');
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 30, 35, 62),
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Show Graph',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        if (_isLoading)
+                          FutureBuilder(
+                            future: http.get(Uri.parse(imageUrl)),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text(
+                                    'Error loading image: ${snapshot.error}');
+                              } else {
+                                return snapshot.data?.bodyBytes != null
+                                    ? Image.memory(snapshot.data!.bodyBytes)
+                                    : Text('Image data is null');
+                              }
+                            },
+                          ),
+                      ],
                     ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      // Perform future request to fetch image
-                      http.get(Uri.parse(imageUrl)).then((response) {
-                        setState(() {
-                          _isLoading = true;
-                        });
-                      }).catchError((error) {
-                        setState(() {
-                          _isLoading = false;
-                        });
-                        print('Error loading image: $error');
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 30, 35, 62), // Button color
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      // Button padding
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), // Button border radius
-                      ),
-                    ),
-                    child: Text(
-                      'Show Graph',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                if (_isLoading)
-                  FutureBuilder(
-                    future: http.get(Uri.parse(imageUrl)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error loading image: ${snapshot.error}');
-                      } else {
-                        // Check if the response bodyBytes is not null before accessing it
-                        return snapshot.data?.bodyBytes != null
-                            ? Image.memory(snapshot.data!.bodyBytes)
-                            : Text('Image data is null');
-                      }
-                    },
-                  ),
-              ],
-            ),
+                  )
+                : SizedBox.shrink(),
           ),
-          // Content for the third tab
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _symbolController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter symbol',
-                      border: InputBorder.none, // Remove border
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: _currentIndex == 2
+                ? Padding(
+                    key: ValueKey<int>(2),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextField(
+                            controller: _symbolController,
+                            decoration: InputDecoration(
+                              hintText: 'Enter symbol',
+                              border: InputBorder.none, // Remove border
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () => getIndicator(),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 30, 35, 62),
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Get Buy/Sell Indicator',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        // Text(
+                        //   'Recommendation: $recommendation',
+                        //   style: TextStyle(fontSize: 18),
+                        // ),
+                        if (showRecommendationImage) // Only show the image if the flag is true
+                          Image.asset(
+                            'assets/Images/strong_buy.png',
+                            fit: BoxFit.contain,
+                          )
+                      ],
                     ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () => getIndicator(),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 30, 35, 62), // Button color
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      // Button padding
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), // Button border radius
-                      ),
-                    ),
-                    child: Text(
-                      'Get Buy/Sell Indicator',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Recommendation: $recommendation', // Display recommendation text
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
+                  )
+                : SizedBox.shrink(),
           ),
         ],
       ),
