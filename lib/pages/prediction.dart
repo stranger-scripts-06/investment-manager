@@ -11,6 +11,7 @@ class _ForecastAppState extends State<ForecastApp> {
   String imageUrl = 'http://127.0.0.1:5000/static/forecast_plot.png';
   TextEditingController _symbolController = TextEditingController();
   List<dynamic> predictions = [];
+  String recommendation = '';
   bool _isLoading = false;
 
   Future<void> getForecast() async {
@@ -26,6 +27,33 @@ class _ForecastAppState extends State<ForecastApp> {
         final Map<String, dynamic> data = json.decode(response.body);
         setState(() {
           predictions = List<dynamic>.from(data['predictions']);
+        });
+      } else {
+        setState(() {
+          // Handle error scenario
+        });
+      }
+    } catch (error) {
+      setState(() {
+        // Handle error scenario
+      });
+    }
+  }
+
+  Future<void> getIndicator() async {
+    final String apiUrl = 'http://127.0.0.1:5000/buysell';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {'symbol': _symbolController.text},
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        setState(() {
+          // Extract recommendation value as a string
+          recommendation = data['buy_sell_ind'].toString();
         });
       } else {
         setState(() {
@@ -182,7 +210,34 @@ class _ForecastAppState extends State<ForecastApp> {
                   }
                 },
               ),
+
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ElevatedButton(
+                onPressed: () => getIndicator(),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 30, 35, 62), // Button color
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  // Button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Button border radius
+                  ),
+                ),
+                child: Text(
+                  'Get Buy/Sell Indicator',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
+            Text(
+              'Recommendation: $recommendation', // Display recommendation text
+              style: TextStyle(fontSize: 18),
+            ),
             // Text(
             //   'Predictions:',
             //   style: TextStyle(
