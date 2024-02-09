@@ -12,11 +12,11 @@ class StocksPage extends StatefulWidget {
 }
 
 class Stock {
-  double price=0.0;
+  double price = 0.0;
   final String symbol;
-  int quantity =0;
+  int quantity = 0;
 
-  Stock({required this.quantity, required this. price, required this. symbol});
+  Stock({required this.quantity, required this.price, required this.symbol});
 
   factory Stock.fromMap(Map<dynamic, dynamic> map) {
     return Stock(
@@ -44,16 +44,14 @@ class _StocksPageState extends State<StocksPage> {
     fetchWatchlist();
     searchController.addListener(() {
       setState(
-          () {
-          }); // Trigger a rebuild when the text in the search box changes
+          () {}); // Trigger a rebuild when the text in the search box changes
     });
   }
 
   Future<Map<String, dynamic>> fetchStockData(String symbol) async {
     stockSymbol = symbol;
     final String symbolWithBSE = '$stockSymbol$suffix'.replaceAll(' ', '%20');
-    final String apiUrl =
-        'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbolWithBSE&apikey=$apiKey';
+    final String apiUrl = '';
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
@@ -64,7 +62,6 @@ class _StocksPageState extends State<StocksPage> {
         if (data.containsKey('Global Quote')) {
           return data['Global Quote'];
         }
-
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -74,7 +71,8 @@ class _StocksPageState extends State<StocksPage> {
     return {};
   }
 
-  Future<List<Map<String, dynamic>>> fetchStockDataForAll(List<String> symbols) async {
+  Future<List<Map<String, dynamic>>> fetchStockDataForAll(
+      List<String> symbols) async {
     List<Future<Map<String, dynamic>>> futures = [];
 
     for (var symbol in symbols) {
@@ -85,7 +83,7 @@ class _StocksPageState extends State<StocksPage> {
   }
 
   Widget waiting() {
-    return Center(child:CircularProgressIndicator());
+    return Center(child: CircularProgressIndicator());
   }
 
   Future<void> fetchStocks() async {
@@ -94,8 +92,7 @@ class _StocksPageState extends State<StocksPage> {
 
     setState(() {
       _isLoading = true;
-    }
-    );
+    });
 
     try {
       // Replace 'user_id' with the actual user ID
@@ -125,8 +122,7 @@ class _StocksPageState extends State<StocksPage> {
 
     setState(() {
       _isLoading = true;
-    }
-    );
+    });
 
     try {
       // Replace 'user_id' with the actual user ID
@@ -139,7 +135,7 @@ class _StocksPageState extends State<StocksPage> {
 
       // Map the documents to Stock objects
       List<Stock> fetchedWatchlist =
-      snapshot.docs.map((doc) => Stock.fromMap(doc.data())).toList();
+          snapshot.docs.map((doc) => Stock.fromMap(doc.data())).toList();
 
       setState(() {
         myWatchlist = fetchedWatchlist;
@@ -171,7 +167,7 @@ class _StocksPageState extends State<StocksPage> {
               title: Text(
                 "Stocks",
                 style: TextStyle(
-                  color: Color(0xFFF9FAF8),
+                  color: Colors.white,
                   fontSize: 28.0,
                 ),
               ),
@@ -181,13 +177,13 @@ class _StocksPageState extends State<StocksPage> {
                   Navigator.pushNamed(context, '/settings');
                 },
                 icon: Icon(Icons.menu),
-                color: Color(0xFFF9FAF8),
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.notifications),
-                  color: Color(0xFFF9FAF8),
+                  color: Colors.white,
                 ),
                 SizedBox(
                   height: 10,
@@ -197,7 +193,7 @@ class _StocksPageState extends State<StocksPage> {
                     _performSearch(searchController.text);
                   },
                   icon: Icon(Icons.search),
-                  color: Color(0xFFF9FAF8),
+                  color: Colors.white,
                 ),
               ],
               backgroundColor: Colors.black,
@@ -250,8 +246,7 @@ class _StocksPageState extends State<StocksPage> {
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20),
                                 bottom: Radius.zero,
-                              )
-                          ),
+                              )),
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
@@ -272,15 +267,18 @@ class _StocksPageState extends State<StocksPage> {
                             color: Color(0xFF313131),
                           ),
                           alignment: Alignment.center,
-                          child:FutureBuilder(
-                            future: fetchStockDataForAll(myStocks.map((stock) => stock.symbol).toList()),
+                          child: FutureBuilder(
+                            future: fetchStockDataForAll(
+                                myStocks.map((stock) => stock.symbol).toList()),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else if (snapshot.hasError) {
                                 return Text('Error loading data');
                               } else {
-                                List<Map<String, dynamic>> stockDataList = snapshot.data as List<Map<String, dynamic>>;
+                                List<Map<String, dynamic>> stockDataList =
+                                    snapshot.data as List<Map<String, dynamic>>;
 
                                 return ListView.builder(
                                   itemCount: myStocks.length,
@@ -289,28 +287,30 @@ class _StocksPageState extends State<StocksPage> {
                                     var stockData = stockDataList[index];
 
                                     var price = stockData?['05. price'];
-                                    var changePercent = stockData?['10. change percent'];
+                                    var changePercent =
+                                        stockData?['10. change percent'];
                                     var changePercentValue;
-                                    if(changePercent!=null) {
-                                      changePercentValue = double.parse(changePercent.replaceAll('%', ''));
-                                    }
-                                    else{
+                                    if (changePercent != null) {
+                                      changePercentValue = double.parse(
+                                          changePercent.replaceAll('%', ''));
+                                    } else {
                                       changePercentValue = null;
                                     }
                                     Color tileColor;
-                                    if(changePercentValue!=null && changePercentValue<0){
+                                    if (changePercentValue != null &&
+                                        changePercentValue < 0) {
                                       tileColor = Colors.redAccent;
-                                    }
-                                    else{
+                                    } else {
                                       tileColor = Colors.green;
                                     }
-                                    if(index==myStocks.length-1){
+                                    if (index == myStocks.length - 1) {
                                       return GestureDetector(
                                         child: Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(20.0),
-                                              bottomRight: Radius.circular(20.0),
+                                              bottomRight:
+                                                  Radius.circular(20.0),
                                             ),
                                             color: tileColor,
                                           ),
@@ -325,106 +325,65 @@ class _StocksPageState extends State<StocksPage> {
                                             ),
                                           ),
                                         ),
-                                        onTap: (){
-                                          showModalBottomSheet(context: context, builder: (BuildContext){
-                                            return Container(
-                                              width: 330,
-                                              height: 300,
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Text("${stock.symbol}"),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Text("Current Price:"),
-                                                        SizedBox(width: 40),
-                                                        Text('${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
-                                                          style: TextStyle(color: tileColor),),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Text("Expected Price:"),
-                                                        SizedBox(width: 40),
-                                                        Text('I have no idea ', style: TextStyle(color: tileColor),),
-                                                      ],
-                                                    ),
-                                                    ElevatedButton(onPressed: (){ Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                        builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
-                                                        child: Text("More Info")),
-
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }
-                                      return GestureDetector(
-                                        child: Container(
-                                          color: tileColor,
-                                          child: ListTile(
-                                            title: Text(
-                                              stock.symbol,
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            trailing: Text(
-                                              '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
-                                            ),
-                                          ),
-                                        ),
-                                        onTap: (){
-                                          showModalBottomSheet(context: context, builder: (BuildContext){
-                                            return Container(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (BuildContext) {
+                                              return Container(
                                                 width: 330,
+                                                height: 300,
                                                 child: Align(
                                                   alignment: Alignment.center,
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
                                                     children: [
                                                       Text("${stock.symbol}"),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                          Text("Current Price:"),
+                                                          Text(
+                                                              "Current Price:"),
                                                           SizedBox(width: 40),
-                                                          Text('${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
-                                                            style: TextStyle(color: tileColor),),
+                                                          Text(
+                                                            '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    tileColor),
+                                                          ),
                                                         ],
                                                       ),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                          Text("Expected Price:"),
+                                                          Text(
+                                                              "Expected Price:"),
                                                           SizedBox(width: 40),
-                                                          Text(' 712.23 ', style: TextStyle(color: tileColor),),
+                                                          Text(
+                                                            'I have no idea ',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    tileColor),
+                                                          ),
                                                         ],
                                                       ),
-                                                      Container(
-                                                        height: 200,
-                                                        width: 330,
-                                                        child: WebviewScaffold(
-                                                          url: "https://in.tradingview.com/chart/?symbol=NSE%3A" + stock.symbol,
-                                                          withZoom: false,
-                                                          withJavascript: true,
-                                                        ),
-                                                      ),
-                                                      ElevatedButton(onPressed: (){
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                            builder: (context) => SearchResultsPage(searchQuery: stockSymbol),
-                                                        ),);
-                                                      }, child: Text("More Info")),
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        SearchResultsPage(
+                                                                            searchQuery:
+                                                                                stock.symbol)));
+                                                          },
+                                                          child: Text(
+                                                              "More Info")),
                                                     ],
                                                   ),
                                                 ),
@@ -433,6 +392,96 @@ class _StocksPageState extends State<StocksPage> {
                                           );
                                         },
                                       );
+                                    }
+                                    return GestureDetector(
+                                      child: Container(
+                                        color: tileColor,
+                                        child: ListTile(
+                                          title: Text(
+                                            stock.symbol,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          trailing: Text(
+                                            '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
+                                          ),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext) {
+                                            return Container(
+                                              width: 330,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Text("${stock.symbol}"),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text("Current Price:"),
+                                                        SizedBox(width: 40),
+                                                        Text(
+                                                          '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
+                                                          style: TextStyle(
+                                                              color: tileColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text("Expected Price:"),
+                                                        SizedBox(width: 40),
+                                                        Text(
+                                                          ' 712.23 ',
+                                                          style: TextStyle(
+                                                              color: tileColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      height: 200,
+                                                      width: 330,
+                                                      child: WebviewScaffold(
+                                                        url:
+                                                            "https://in.tradingview.com/chart/?symbol=NSE%3A" +
+                                                                stock.symbol,
+                                                        withZoom: false,
+                                                        withJavascript: true,
+                                                      ),
+                                                    ),
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  SearchResultsPage(
+                                                                      searchQuery:
+                                                                          stockSymbol),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child:
+                                                            Text("More Info")),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    );
                                   },
                                 );
                               }
@@ -464,8 +513,7 @@ class _StocksPageState extends State<StocksPage> {
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20),
                                   bottom: Radius.zero,
-                                )
-                            ),
+                                )),
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
@@ -487,14 +535,19 @@ class _StocksPageState extends State<StocksPage> {
                             ),
                             alignment: Alignment.center,
                             child: FutureBuilder(
-                              future: fetchStockDataForAll(myWatchlist.map((stock) => stock.symbol).toList()),
+                              future: fetchStockDataForAll(myWatchlist
+                                  .map((stock) => stock.symbol)
+                                  .toList()),
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
                                   return CircularProgressIndicator();
                                 } else if (snapshot.hasError) {
                                   return Text('Error loading data');
                                 } else {
-                                  List<Map<String, dynamic>> stockDataList = snapshot.data as List<Map<String, dynamic>>;
+                                  List<Map<String, dynamic>> stockDataList =
+                                      snapshot.data
+                                          as List<Map<String, dynamic>>;
 
                                   return ListView.builder(
                                     itemCount: myWatchlist.length,
@@ -503,28 +556,31 @@ class _StocksPageState extends State<StocksPage> {
                                       var stockData = stockDataList[index];
 
                                       var price = stockData?['05. price'];
-                                      var changePercent = stockData?['10. change percent'];
+                                      var changePercent =
+                                          stockData?['10. change percent'];
                                       var changePercentValue;
-                                      if(changePercent!=null) {
-                                        changePercentValue = double.parse(changePercent.replaceAll('%', ''));
-                                      }
-                                      else{
+                                      if (changePercent != null) {
+                                        changePercentValue = double.parse(
+                                            changePercent.replaceAll('%', ''));
+                                      } else {
                                         changePercentValue = null;
                                       }
                                       Color tileColor;
-                                      if(changePercentValue!=null && changePercentValue<0){
+                                      if (changePercentValue != null &&
+                                          changePercentValue < 0) {
                                         tileColor = Colors.redAccent;
-                                      }
-                                      else{
+                                      } else {
                                         tileColor = Colors.green;
                                       }
-                                      if(index==myStocks.length-1){
+                                      if (index == myStocks.length - 1) {
                                         return GestureDetector(
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(20.0),
-                                                bottomRight: Radius.circular(20.0),
+                                                bottomLeft:
+                                                    Radius.circular(20.0),
+                                                bottomRight:
+                                                    Radius.circular(20.0),
                                               ),
                                               color: tileColor,
                                             ),
@@ -539,47 +595,69 @@ class _StocksPageState extends State<StocksPage> {
                                               ),
                                             ),
                                           ),
-                                          onTap: (){
-                                            showModalBottomSheet(context: context, builder: (BuildContext){
-                                              return Container(
-                                                width: 330,
-                                                height: 300,
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Text("${stock.symbol}"),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Text("Current Price:"),
-                                                          SizedBox(width: 40),
-                                                          Text('${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
-                                                            style: TextStyle(color: tileColor),),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Text("Expected Price:"),
-                                                          SizedBox(width: 40),
-                                                          Text('3984.50 ', style: TextStyle(color: Colors.redAccent),),
-                                                        ],
-                                                      ),
-                                                      ElevatedButton(onPressed: (){
-
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
-                                                          child: Text("More Info")),
-
-                                                    ],
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (BuildContext) {
+                                                return Container(
+                                                  width: 330,
+                                                  height: 300,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Text("${stock.symbol}"),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                "Current Price:"),
+                                                            SizedBox(width: 40),
+                                                            Text(
+                                                              '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      tileColor),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                "Expected Price:"),
+                                                            SizedBox(width: 40),
+                                                            Text(
+                                                              '3984.50 ',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .redAccent),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          SearchResultsPage(
+                                                                              searchQuery: stock.symbol)));
+                                                            },
+                                                            child: Text(
+                                                                "More Info")),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              );
-                                            },
+                                                );
+                                              },
                                             );
                                           },
                                         );
@@ -598,53 +676,80 @@ class _StocksPageState extends State<StocksPage> {
                                             ),
                                           ),
                                         ),
-                                        onTap: (){
-                                          showModalBottomSheet(context: context, builder: (BuildContext){
-                                            return Container(
-                                              width: 330,
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Text("${stock.symbol}"),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Text("Current Price:"),
-                                                        SizedBox(width: 40),
-                                                        Text('${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
-                                                          style: TextStyle(color: tileColor),),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Text("Expected Price:"),
-                                                        SizedBox(width: 40),
-                                                        Text('I have no idea ', style: TextStyle(color: tileColor),),
-                                                      ],
-                                                    ),
-                                                    Container(
-                                                      height: 200,
-                                                      width: 330,
-                                                      child: WebviewScaffold(
-                                                        url: "https://in.tradingview.com/chart/?symbol=NSE%3A" + stock.symbol,
-                                                        withZoom: false,
-                                                        withJavascript: true,
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (BuildContext) {
+                                              return Container(
+                                                width: 330,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text("${stock.symbol}"),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              "Current Price:"),
+                                                          SizedBox(width: 40),
+                                                          Text(
+                                                            '${price ?? 'Loading'} ${changePercent ?? 'Loading'}',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    tileColor),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    ElevatedButton(onPressed: (){ Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => SearchResultsPage(searchQuery: stock.symbol)));},
-                                                        child: Text("More Info")),
-
-                                                  ],
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              "Expected Price:"),
+                                                          SizedBox(width: 40),
+                                                          Text(
+                                                            'I have no idea ',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    tileColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Container(
+                                                        height: 200,
+                                                        width: 330,
+                                                        child: WebviewScaffold(
+                                                          url:
+                                                              "https://in.tradingview.com/chart/?symbol=NSE%3A" +
+                                                                  stock.symbol,
+                                                          withZoom: false,
+                                                          withJavascript: true,
+                                                        ),
+                                                      ),
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        SearchResultsPage(
+                                                                            searchQuery:
+                                                                                stock.symbol)));
+                                                          },
+                                                          child: Text(
+                                                              "More Info")),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
+                                              );
+                                            },
                                           );
                                         },
                                       );
@@ -669,9 +774,9 @@ class _StocksPageState extends State<StocksPage> {
                           },
                           icon: Icon(
                             Icons.home,
-                            size: 50,
+                            size: 40,
                           ),
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         IconButton(
                           onPressed: () {
@@ -679,25 +784,25 @@ class _StocksPageState extends State<StocksPage> {
                           },
                           icon: Icon(
                             Icons.perm_contact_cal_rounded,
-                            size: 50,
+                            size: 40,
                           ),
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.attach_money_rounded,
-                            size: 50,
+                            size: 40,
                           ),
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.menu_book,
-                            size: 50,
+                            size: 40,
                           ),
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                       ],
                     ),

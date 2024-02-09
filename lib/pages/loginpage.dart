@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFF0E68C)),
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
                       style: TextStyle(color: Color(0xFFF9FAF8)),
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: Text("Forgot Password?"),
                 style: ButtonStyle(
-                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white),
                 ),
               ),
               SizedBox(
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.white),
                   foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
                   fixedSize: MaterialStatePropertyAll(Size(280, 60)),
                   shape: MaterialStatePropertyAll(
@@ -162,11 +162,11 @@ class _LoginPageState extends State<LoginPage> {
                 style: ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(280, 50)),
                   backgroundColor: MaterialStatePropertyAll(Colors.black),
-                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Color(0xFFF0E68C), width: 2),
+                      side: BorderSide(color: Colors.white, width: 2),
                     ),
                   ),
                 ),
@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     'New here?',
                     style: TextStyle(
-                      color: Color(0xFFF0E68C),
+                      color: Colors.white,
                     ),
                   ),
                   GestureDetector(
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       ' Sign Up',
                       style: TextStyle(
-                        color: Colors.yellow,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

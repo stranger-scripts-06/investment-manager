@@ -19,7 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _nameController = TextEditingController();
   final _numberController = TextEditingController();
 
-  void dispose(){
+  void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmController.dispose();
@@ -28,8 +28,8 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  Future SignUp() async{
-    if(confirmPassword()){
+  Future SignUp() async {
+    if (confirmPassword()) {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
@@ -42,7 +42,6 @@ class _SignUpPageState extends State<SignUpPage> {
         _emailController.text.trim(),
         int.parse(_numberController.text.trim()),
       );
-
     }
   }
 
@@ -57,22 +56,23 @@ class _SignUpPageState extends State<SignUpPage> {
     await docId.set(newData, SetOptions(merge: true));
   }
 
-
   //to initialize the stocks collection(temporary)
-  Future<void> iniStocks(String symbol, double price, int quantity, String email) async{
+  Future<void> iniStocks(
+      String symbol, double price, int quantity, String email) async {
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-    String path = 'users/'+docId+'/myStocks';
+    String path = 'users/' + docId + '/myStocks';
     await FirebaseFirestore.instance.collection(path);
   }
 
-  Future<void> iniStocksWatchlist(String symbol, double price, String email) async{
+  Future<void> iniStocksWatchlist(
+      String symbol, double price, String email) async {
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-    String path = 'users/'+docId+'/Watchlist';
+    String path = 'users/' + docId + '/Watchlist';
     await FirebaseFirestore.instance.collection(path);
   }
 
-  bool confirmPassword(){
-    if(_passwordController.text.trim() == _confirmController.text.trim()){
+  bool confirmPassword() {
+    if (_passwordController.text.trim() == _confirmController.text.trim()) {
       return true;
     }
     return false;
@@ -92,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Text("Sign Up",
                   style: TextStyle(
                     fontSize: 28.0,
-                    color: Color(0xFFF9FAF8),
+                    color: Colors.white,
                   )),
               SizedBox(
                 height: 40.0,
@@ -100,9 +100,10 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 100.0,
                 width: 100.0,
-                child: Image(image: AssetImage('assets/Images/loginlogo.png'),
+                child: Image(
+                    image: AssetImage('assets/Images/loginlogo.png'),
                     fit: BoxFit.cover,
-                    color: Color(0xFFF9FAF8)),
+                    color: Colors.white),
               ),
               SizedBox(
                 height: 30.0,
@@ -117,22 +118,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         iconColor: Colors.white,
                         labelText: ("Name"),
                         labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFF9FAF8)),
+                            fontWeight: FontWeight.bold, color: Colors.white),
                         hintText: ("Enter your name"),
                         hintStyle: TextStyle(
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         border: OutlineInputBorder(),
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                      style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -143,22 +143,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         iconColor: Colors.white,
                         labelText: ("Email"),
                         labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFF9FAF8)),
+                            fontWeight: FontWeight.bold, color: Colors.white),
                         hintText: ("Enter email address"),
                         hintStyle: TextStyle(
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         border: OutlineInputBorder(),
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                      style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -169,22 +168,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         iconColor: Colors.white,
                         labelText: ("Phone Number"),
                         labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFF9FAF8)),
+                            fontWeight: FontWeight.bold, color: Colors.white),
                         hintText: ("Enter phone number"),
                         hintStyle: TextStyle(
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         border: OutlineInputBorder(),
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                      style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -196,22 +194,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         iconColor: Colors.white,
                         labelText: ("Password"),
                         labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFF9FAF8)),
+                            fontWeight: FontWeight.bold, color: Colors.white),
                         hintText: ("Enter your password"),
                         hintStyle: TextStyle(
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         border: OutlineInputBorder(),
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                      style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -223,22 +220,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         iconColor: Colors.white,
                         labelText: ("Confirmation"),
                         labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFF9FAF8)),
+                            fontWeight: FontWeight.bold, color: Colors.white),
                         hintText: ("Re-enter password"),
                         hintStyle: TextStyle(
-                          color: Color(0xFFF9FAF8),
+                          color: Colors.white,
                         ),
                         border: OutlineInputBorder(),
                         fillColor: Color(0xFF313131),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFF0E68C),
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      style: TextStyle(color: Color(0xFFF9FAF8)),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -257,7 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.white),
                   foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
                   fixedSize: MaterialStatePropertyAll(Size(330, 60)),
                   shape: MaterialStatePropertyAll(
@@ -277,11 +273,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 style: ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(330, 50)),
                   backgroundColor: MaterialStatePropertyAll(Colors.black),
-                  foregroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.yellow, width: 2),
+                      side: BorderSide(color: Colors.white, width: 2),
                     ),
                   ),
                 ),
@@ -295,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     'Already have an account?',
                     style: TextStyle(
-                      color: Color(0xFFF0E68C),
+                      color: Colors.white,
                     ),
                   ),
                   GestureDetector(
@@ -303,7 +299,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Text(
                       ' Login',
                       style: TextStyle(
-                        color: Colors.yellow,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

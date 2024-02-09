@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:investment_manager/pages/piechart.dart';
+import 'package:investment_manager/pages/prediction.dart';
+import 'package:investment_manager/pages/stockspage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -12,6 +14,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+
+  bool _showButtons = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Delay the animation to give time for the UI to build
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        _showButtons = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,205 +58,205 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                height: 250,
-                width: 375,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFF313131),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20.0,
                 ),
-                alignment: Alignment.center,
-                child: MyPieChart(),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/stocks');
-                },
-                child: Row(
+                AnimatedOpacity(
+                  opacity: _showButtons ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),
+                  child: Container(
+                    height: 250,
+                    width: 375,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xFF313131),
+                    ),
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: MyPieChart(),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                _buildAnimatedButton(
+                  onPressed: () {
+                    _navigateToPage('/stocks');
+                  },
+                  iconPath: "assets/Icons/stocksIconHajicon.png",
+                  label: "Stocks",
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                _buildAnimatedButton(
+                  onPressed: () {
+                    _navigateToPage('/prediction');
+                  },
+                  iconPath: "assets/Icons/mutualFundIconPopVectors.png",
+                  label: "Get Prediction",
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                _buildAnimatedButton(
+                  onPressed: () {},
+                  iconPath: "assets/Icons/newsIconFreepik.png",
+                  label: "News",
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      child: Image.asset("assets/Icons/stocksIconHajicon.png"),
-                      height: 50,
-                      width: 50,
+                    _buildIconButton(
+                      onPressed: () {},
+                      icon: Icons.home,
                     ),
-                    SizedBox(
-                      width: 28,
+                    _buildIconButton(
+                      onPressed: () {
+                        _navigateToPage('/portfolio');
+                      },
+                      icon: Icons.perm_contact_cal_rounded,
                     ),
-                    Text(
-                      "Stocks",
-                      style: TextStyle(
-                        color: Color(0xFFF9FAF8),
-                        fontSize: 28,
-                      ),
+                    _buildIconButton(
+                      onPressed: () {
+                        _navigateToPage('/stocks');
+                      },
+                      icon: Icons.attach_money_rounded,
                     ),
-                    SizedBox(
-                      width: 110,
-                    ),
-                    Container(
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFFF9FAF8),
-                      ),
+                    _buildIconButton(
+                      onPressed: () {},
+                      icon: Icons.menu_book,
                     ),
                   ],
                 ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFF313131)),
-                  fixedSize: MaterialStatePropertyAll(Size(375, 60)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50), //
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/prediction');
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      child: Image.asset(
-                          "assets/Icons/mutualFundIconPopVectors.png"),
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(
-                      width: 28,
-                    ),
-                    Text(
-                      "Get Prediction",
-                      style: TextStyle(
-                        color: Color(0xFFF9FAF8),
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 38,
-                    ),
-                    Container(
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFFF9FAF8),
-                      ),
-                    ),
-                  ],
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFF313131)),
-                  fixedSize: MaterialStatePropertyAll(Size(375, 60)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50), //
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  children: [
-                    Container(
-                      child: Image.asset("assets/Icons/newsIconFreepik.png"),
-                      height: 47,
-                      width: 47,
-                    ),
-                    SizedBox(
-                      width: 28,
-                    ),
-                    Text(
-                      "News",
-                      style: TextStyle(
-                        color: Color(0xFFF9FAF8),
-                        fontSize: 28,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 130,
-                    ),
-                    Container(
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFFF9FAF8),
-                      ),
-                    ),
-                  ],
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFF313131)),
-                  fixedSize: MaterialStatePropertyAll(Size(375, 60)),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50), //
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 90,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.home,
-                      size: 50,
-                    ),
-                    color: Color(0xFFF9FAF8),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/portfolio');
-                    },
-                    icon: Icon(
-                      Icons.perm_contact_cal_rounded,
-                      size: 50,
-                    ),
-                    color: Color(0xFFF9FAF8),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/stocks');
-                    },
-                    icon: Icon(
-                      Icons.attach_money_rounded,
-                      size: 50,
-                    ),
-                    color: Color(0xFFF9FAF8),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.menu_book,
-                      size: 50,
-                    ),
-                    color: Color(0xFFF9FAF8),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildAnimatedButton({
+    required VoidCallback onPressed,
+    required String iconPath,
+    required String label,
+  }) {
+    return AnimatedOpacity(
+      opacity: _showButtons ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 500),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            Container(
+              child: Image.asset(iconPath),
+              height: 40,
+              width: 40,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                color: Color(0xFFF9FAF8),
+                fontSize: 22,
+              ),
+            ),
+            SizedBox(
+              width: 50,
+            ),
+            Container(
+              child: Icon(
+                Icons.arrow_forward,
+                color: Color(0xFFF9FAF8),
+              ),
+            ),
+          ],
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xFF313131)),
+          fixedSize: MaterialStateProperty.all(Size(375, 60)),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton({
+    required VoidCallback onPressed,
+    required IconData icon,
+  }) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        size: 40,
+      ),
+      color: Color(0xFFF9FAF8),
+    );
+  }
+
+  // Function to navigate to a page with smooth animated transition
+  void _navigateToPage(String routeName) {
+    switch (routeName) {
+      case '/stocks':
+        Navigator.of(context).push(PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return FadeTransition(
+              opacity: animation,
+              child: StocksPage(), // Replace with the StocksPage widget
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
+        ));
+        break;
+      case '/prediction':
+        Navigator.of(context).push(PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return FadeTransition(
+              opacity: animation,
+              child: ForecastApp(), // Replace with the PredictionPage widget
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
+        ));
+        break;
+      // Add more cases for other routes as needed
+      default:
+        break;
+    }
   }
 }

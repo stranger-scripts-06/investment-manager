@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:investment_manager/pages/analysis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class SearchResultsPage extends StatefulWidget {
   final String searchQuery;
 
@@ -20,17 +21,16 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   String stockSymbol = '';
   Map<String, dynamic> stockData = {};
 
-  Future<void> addStocks(String symbol, double price, int quantity, String email) async{
+  Future<void> addStocks(
+      String symbol, double price, int quantity, String email) async {
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-    String path = 'users/'+docId+'/myStocks';
+    String path = 'users/' + docId + '/myStocks';
     await FirebaseFirestore.instance.collection(path).add({
       'symbol': symbol,
-      'price' : price,
+      'price': price,
       'quantity': quantity,
-    }
-    );
+    });
   }
-
 
   void _showQuantityDialog(String stockSymbol, double price, String email) {
     int quantity = 1; // Default quantity
@@ -43,7 +43,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(labelText: 'Quantity'),
             onChanged: (value) {
-              quantity = int.tryParse(value) ?? 1; // If parsing fails, default to 1
+              quantity =
+                  int.tryParse(value) ?? 1; // If parsing fails, default to 1
             },
           ),
           actions: <Widget>[
@@ -60,13 +61,12 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     );
   }
 
-  Future<void> addWatchlist(String symbol, String email) async{
+  Future<void> addWatchlist(String symbol, String email) async {
     final docId = FirebaseFirestore.instance.collection('users').doc(email).id;
-    String path = 'users/'+docId+'/Watchlist';
+    String path = 'users/' + docId + '/Watchlist';
     await FirebaseFirestore.instance.collection(path).add({
       'symbol': symbol,
-    }
-    );
+    });
   }
 
   @override
@@ -78,8 +78,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   Future<void> fetchStockData() async {
     final String symbolWithBSE = '$stockSymbol$suffix'.replaceAll(' ', '%20');
-    final String apiUrl =
-        'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbolWithBSE&apikey=$apiKey';
+    final String apiUrl = '';
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
@@ -107,7 +106,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.searchQuery),
-        backgroundColor: Color.fromARGB(255, 255, 251, 228),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -120,24 +119,27 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                 if (stockData.isNotEmpty) ..._buildStockInfo(),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {// Navigate to the second page and pass the variable
-                    Navigator.push(context,
+                  onPressed: () {
+                    // Navigate to the second page and pass the variable
+                    Navigator.push(
+                      context,
                       MaterialPageRoute(
                         builder: (context) =>
                             StockAnalysis(stockSymbol: stockSymbol),
                       ),
                     );
                   },
-                  child: Text('More Info',
+                  child: Text(
+                    'More Info',
                     style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
                     foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
-                    fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                    fixedSize: MaterialStatePropertyAll(Size(310, 50)),
                     shape: MaterialStatePropertyAll(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0), //
@@ -150,20 +152,25 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:[
-                      ElevatedButton(onPressed: (){
-                        _showQuantityDialog(stockSymbol, double.parse(stockData['05. price']), email);
-                      },
-                        child: Text("Add Stock",
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          _showQuantityDialog(stockSymbol,
+                              double.parse(stockData['05. price']), email);
+                        },
+                        child: Text(
+                          "Buy Stock",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
-                          foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
-                          fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white),
+                          foregroundColor:
+                              MaterialStatePropertyAll(Colors.grey[900]),
+                          fixedSize: MaterialStatePropertyAll(Size(150, 50)),
                           shape: MaterialStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0), //
@@ -171,18 +178,23 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                           ),
                         ),
                       ),
-                      ElevatedButton(onPressed: (){
-                        addWatchlist(stockSymbol, email);
-                      }, child: Text("Watchlist",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                      ElevatedButton(
+                        onPressed: () {
+                          addWatchlist(stockSymbol, email);
+                        },
+                        child: Text(
+                          "Watchlist",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color(0xFFF0E68C)),
-                          foregroundColor: MaterialStatePropertyAll(Colors.grey[900]),
-                          fixedSize: MaterialStatePropertyAll(Size(120, 50)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.white),
+                          foregroundColor:
+                              MaterialStatePropertyAll(Colors.grey[900]),
+                          fixedSize: MaterialStatePropertyAll(Size(150, 50)),
                           shape: MaterialStatePropertyAll(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0), //
@@ -190,8 +202,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                           ),
                         ),
                       ),
-                    ]
-                )
+                    ])
               ],
             ),
           ),
@@ -215,7 +226,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   Widget _buildParameter(String label, String value) {
-    Color tileColor = Color.fromARGB(255, 255, 251, 228); // Default color
+    Color tileColor = Color.fromARGB(255, 54, 62, 105); // Default color
 
     if (label == 'Change' || label == 'Change Percent') {
       // Extract numeric value and remove '%' if 'Change Percent'

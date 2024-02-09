@@ -80,7 +80,7 @@ class _StockAnalysisState extends State<StockAnalysis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 247, 231, 186),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: Text('Stock Information for : ${widget.stockSymbol}'),
       ),
       body: SingleChildScrollView(
@@ -91,7 +91,7 @@ class _StockAnalysisState extends State<StockAnalysis> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 212, 242, 129),
+                  color: Colors.white,
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(12),
                 ),
