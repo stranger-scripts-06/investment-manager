@@ -44,6 +44,7 @@ Features:
 ## 🔗Links
 
 - [GitHub Repository](https://github.com/stranger-scripts-06/investment-manager)
+- [Demo Video](https://drive.google.com/drive/folders/1uaaOUaWjAcCgpCtlKcW-_utOq6Yaxb9P?usp=sharing)
 - [Screenshots drive link](https://drive.google.com/drive/folders/17k75AuwpqmRZmb5DFzgMDDRXtjaKLepG?usp=drive_link)
 
 ## 🤖Tech-Stack
